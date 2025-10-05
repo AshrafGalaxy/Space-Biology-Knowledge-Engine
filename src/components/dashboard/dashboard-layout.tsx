@@ -9,7 +9,7 @@ import { GapAnalysisPanel } from './gap-analysis-panel';
 import PublicationDetailDialog from './publication-detail-dialog';
 import { Card, CardContent } from '../ui/card';
 import { ScrollArea } from '../ui/scroll-area';
-import { Sheet, SheetContent } from '../ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from '../ui/sheet';
 import { useState } from 'react';
 
 function DashboardView() {
@@ -28,6 +28,9 @@ function DashboardView() {
         {/* Mobile Filter Panel in a Sheet */}
         <Sheet open={isFilterPanelOpen} onOpenChange={setIsFilterPanelOpen}>
           <SheetContent side="left" className="lg:hidden p-0 w-80">
+            <SheetHeader className="sr-only">
+              <SheetTitle>Filter and Explore Concepts</SheetTitle>
+            </SheetHeader>
             <FilterPanel />
           </SheetContent>
         </Sheet>
