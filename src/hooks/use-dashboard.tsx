@@ -70,15 +70,17 @@ export function DashboardProvider({
 
   const toggleConcept = useCallback((concept: string) => {
     let conceptAdded = false;
+    let conceptRemoved = false;
     setActiveConcepts(prev => {
       const newSet = new Set(prev);
       if (newSet.has(concept)) {
         newSet.delete(concept);
+        conceptRemoved = true;
       } else {
         if (newSet.size >= 3) {
           toast({
             title: 'Concept Limit Reached',
-            description: 'You can select a maximum of 3 concepts at a time.',
+            description: 'You can select a maximum of 3 concepts at a time for filtering.',
             variant: 'destructive',
           });
           return prev;
@@ -88,14 +90,14 @@ export function DashboardProvider({
       }
       return newSet;
     });
-    return conceptAdded;
+    return { conceptAdded, conceptRemoved };
   }, [toast]);
 
   const filterByConcept = (concept: string) => {
-    const added = toggleConcept(concept);
-    // Only close the dialog if the concept was successfully added (i.e., not at the limit)
-    // and if it wasn't already active (which would mean the user is de-selecting it)
-    if (added) {
+    // We only want to close the dialog if a *new* concept was successfully added.
+    // If the user is de-selecting a concept, or if they've hit the limit, the dialog should remain open.
+    const { conceptAdded } = toggleConcept(concept);
+    if (conceptAdded) {
         setSelectedPublicationId(null);
     }
   };
@@ -220,3 +222,5 @@ export function useDashboard() {
   }
   return context;
 }
+
+    
