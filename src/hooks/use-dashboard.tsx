@@ -4,6 +4,8 @@ import { createContext, useContext, useState, useMemo, useEffect, useCallback } 
 import type { Publication, UserRole, GapAnalysisResult, SortingState } from '@/types';
 import { useToast } from './use-toast';
 
+type ViewMode = 'grid' | 'list';
+
 interface DashboardContextType {
   publications: Publication[];
   concepts: string[];
@@ -32,6 +34,8 @@ interface DashboardContextType {
   maxYear: number;
   sorting: SortingState;
   setSorting: (sorting: SortingState) => void;
+  viewMode: ViewMode;
+  setViewMode: (mode: ViewMode) => void;
 }
 
 const DashboardContext = createContext<DashboardContextType | undefined>(undefined);
@@ -59,6 +63,7 @@ export function DashboardProvider({
   const [comparisonSet, setComparisonSet] = useState<Set<string>>(new Set());
   const [yearRange, setYearRange] = useState<[number, number]>([minYear, maxYear]);
   const [sorting, setSorting] = useState<SortingState>({ id: 'publicationYear', desc: true });
+  const [viewMode, setViewMode] = useState<ViewMode>('grid');
 
 
   const toggleConcept = (concept: string) => {
@@ -182,6 +187,8 @@ export function DashboardProvider({
     maxYear,
     sorting,
     setSorting,
+    viewMode,
+    setViewMode,
   };
 
   return (
