@@ -12,6 +12,7 @@ import { useState } from 'react';
 import ResearchTimeline from './research-timeline';
 import ComparisonPanel from './comparison-panel';
 import { Card } from '../ui/card';
+import AiResearchSummary from './ai-research-summary';
 
 function DashboardView() {
   const { userRole, isFiltered } = useDashboard();
@@ -39,6 +40,10 @@ function DashboardView() {
         {/* Main Content */}
         <main className="flex-1 overflow-y-auto">
           <div className="space-y-6 p-4 lg:p-8 pt-6">
+            {(userRole === 'Manager' || userRole === 'Mission Architect') && (
+                <AiResearchSummary />
+            )}
+
             {(userRole === 'Scientist' || userRole === 'Mission Architect') && (
                <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
                   <KnowledgeGraph />

@@ -6,6 +6,8 @@ import { comparePublications } from '@/ai/flows/compare-publications';
 import type { ComparePublicationsOutput } from '@/ai/flows/compare-publications';
 import { analyzePublication } from '@/ai/flows/analyze-publication';
 import type { AnalyzePublicationOutput } from '@/ai/flows/analyze-publication';
+import { getResearchOverview } from '@/ai/flows/get-research-overview';
+import type { GetResearchOverviewOutput } from '@/ai/flows/get-research-overview';
 import type { Publication } from '@/types';
 
 export async function runGapAnalysis(publications: Publication[]): Promise<IdentifyKnowledgeGapsOutput> {
@@ -69,6 +71,24 @@ export async function runPublicationAnalysis(publication: Publication): Promise<
             scientificNovelty: "An error occurred while analyzing scientific novelty.",
             keyMethodologies: ["Could not extract methodologies due to a server error."],
             potentialImpact: "An error occurred while analyzing potential impact."
+        };
+    }
+}
+
+export async function runResearchOverview(publications: Pick<Publication, 'title' | 'summary'>[]): Promise<GetResearchOverviewOutput> {
+    if (publications.length < 10) { // Arbitrary threshold for a meaningful overview
+        throw new Error("Not enough publication data to generate a meaningful overview.");
+    }
+    
+    try {
+        const result = await getResearchOverview({ publications });
+        return result;
+    } catch (error) {
+        console.error("Error in research overview action:", error);
+        return {
+            dominantThemes: [{ theme: "Error", description: "Could not analyze dominant themes due to a server error."}],
+            emergingTrends: [{ trend: "Error", description: "Could not analyze emerging trends due to a server error."}],
+            areasOfDebate: [{ topic: "Error", description: "Could not analyze areas of debate due to a server error."}],
         };
     }
 }
