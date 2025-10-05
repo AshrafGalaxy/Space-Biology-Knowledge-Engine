@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useDashboard } from '@/hooks/use-dashboard';
@@ -19,7 +20,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '..
 import { Separator } from '../ui/separator';
 
 export default function PublicationDetailDialog() {
-  const { selectedPublication, setSelectedPublicationId } = useDashboard();
+  const { selectedPublication, setSelectedPublicationId, filterByConcept } = useDashboard();
   const [analysis, setAnalysis] = useState<PublicationAnalysis | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [analysisTriggered, setAnalysisTriggered] = useState(false);
@@ -70,7 +71,15 @@ export default function PublicationDetailDialog() {
                     <h3 className="font-semibold text-foreground">Key Concepts</h3>
                     <div className="flex flex-wrap gap-2">
                         {selectedPublication.keyConcepts.map((concept) => (
-                            <Badge key={concept} variant="secondary">{concept}</Badge>
+                            <Button 
+                              key={concept} 
+                              variant="secondary" 
+                              size="sm"
+                              className="h-auto"
+                              onClick={() => filterByConcept(concept)}
+                            >
+                              {concept}
+                            </Button>
                         ))}
                     </div>
                 </div>

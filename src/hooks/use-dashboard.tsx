@@ -1,3 +1,4 @@
+
 'use client';
 
 import { createContext, useContext, useState, useMemo, useEffect, useCallback } from 'react';
@@ -36,6 +37,7 @@ interface DashboardContextType {
   setSorting: (sorting: SortingState) => void;
   viewMode: ViewMode;
   setViewMode: (mode: ViewMode) => void;
+  filterByConcept: (concept: string) => void;
 }
 
 const DashboardContext = createContext<DashboardContextType | undefined>(undefined);
@@ -66,7 +68,8 @@ export function DashboardProvider({
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
 
 
-  const toggleConcept = (concept: string) => {
+  const toggleConcept = useCallback((concept: string) => {
+    let conceptAdded = false;
     setActiveConcepts(prev => {
       const newSet = new Set(prev);
       if (newSet.has(concept)) {
@@ -81,9 +84,20 @@ export function DashboardProvider({
           return prev;
         }
         newSet.add(concept);
+        conceptAdded = true;
       }
       return newSet;
     });
+    return conceptAdded;
+  }, [toast]);
+
+  const filterByConcept = (concept: string) => {
+    const added = toggleConcept(concept);
+    // Only close the dialog if the concept was successfully added (i.e., not at the limit)
+    // and if it wasn't already active (which would mean the user is de-selecting it)
+    if (added) {
+        setSelectedPublicationId(null);
+    }
   };
 
   const toggleComparison = (id: string) => {
@@ -189,6 +203,7 @@ export function DashboardProvider({
     setSorting,
     viewMode,
     setViewMode,
+    filterByConcept,
   };
 
   return (
