@@ -4,6 +4,8 @@ import { identifyKnowledgeGaps } from '@/ai/flows/identify-knowledge-gaps';
 import type { IdentifyKnowledgeGapsOutput } from '@/ai/flows/identify-knowledge-gaps';
 import { comparePublications } from '@/ai/flows/compare-publications';
 import type { ComparePublicationsOutput } from '@/ai/flows/compare-publications';
+import { analyzePublication } from '@/ai/flows/analyze-publication';
+import type { AnalyzePublicationOutput } from '@/ai/flows/analyze-publication';
 import type { Publication } from '@/types';
 
 export async function runGapAnalysis(publications: Publication[]): Promise<IdentifyKnowledgeGapsOutput> {
@@ -47,4 +49,26 @@ export async function runComparisonAnalysis(publications: Publication[]): Promis
       contradictions: ["Could not analyze for contradictions due to a server error."]
     };
   }
+}
+
+export async function runPublicationAnalysis(publication: Publication): Promise<AnalyzePublicationOutput> {
+    if (!publication) {
+        throw new Error("Publication data is required for analysis.");
+    }
+
+    try {
+        const result = await analyzePublication({
+            title: publication.title,
+            summary: publication.summary,
+        });
+        return result;
+    } catch (error) {
+        console.error("Error in publication analysis action:", error);
+        // Return a structured error response that the client can handle
+        return {
+            scientificNovelty: "An error occurred while analyzing scientific novelty.",
+            keyMethodologies: ["Could not extract methodologies due to a server error."],
+            potentialImpact: "An error occurred while analyzing potential impact."
+        };
+    }
 }

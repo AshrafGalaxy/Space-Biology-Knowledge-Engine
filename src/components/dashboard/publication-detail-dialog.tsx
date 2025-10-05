@@ -11,10 +11,31 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '../ui/scroll-area';
 import { Button } from '../ui/button';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, WandSparkles, TestTube, Target, Lightbulb, Loader2 } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { runPublicationAnalysis } from '@/app/actions';
+import type { PublicationAnalysis } from '@/types';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion';
+import { Separator } from '../ui/separator';
 
 export default function PublicationDetailDialog() {
   const { selectedPublication, setSelectedPublicationId } = useDashboard();
+  const [analysis, setAnalysis] = useState<PublicationAnalysis | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (selectedPublication) {
+      setAnalysis(null);
+      setIsLoading(true);
+      const performAnalysis = async () => {
+        const result = await runPublicationAnalysis(selectedPublication);
+        setAnalysis(result);
+        setIsLoading(false);
+      };
+      performAnalysis();
+    }
+  }, [selectedPublication]);
+
 
   const handleOpenChange = (isOpen: boolean) => {
     if (!isOpen) {
@@ -32,7 +53,7 @@ export default function PublicationDetailDialog() {
           <DialogDescription className="space-y-2 pt-2">
           </DialogDescription>
         </DialogHeader>
-        <ScrollArea className="flex-grow my-4">
+        <ScrollArea className="flex-grow my-4 -mr-6">
             <div className="pr-6 space-y-6">
                 <div className="space-y-2">
                     <h3 className="font-semibold text-foreground">Summary</h3>
@@ -46,6 +67,62 @@ export default function PublicationDetailDialog() {
                             <Badge key={concept} variant="secondary">{concept}</Badge>
                         ))}
                     </div>
+                </div>
+
+                <Separator />
+                
+                <div className="space-y-4">
+                    <h2 className="font-semibold text-foreground flex items-center gap-2">
+                        <WandSparkles className="h-5 w-5 text-primary" />
+                        AI-Powered Analysis
+                    </h2>
+                    {isLoading && (
+                         <div className="flex items-center justify-center py-8 text-muted-foreground">
+                            <Loader2 className="mr-3 h-5 w-5 animate-spin" />
+                            <span>AI is analyzing the publication...</span>
+                        </div>
+                    )}
+                    {analysis && (
+                        <Accordion type="multiple" defaultValue={['novelty', 'methods', 'impact']} className="w-full">
+                            <AccordionItem value="novelty">
+                                <AccordionTrigger className="text-base">
+                                    <div className="flex items-center gap-2">
+                                        <Lightbulb className="h-5 w-5"/>
+                                        Scientific Novelty
+                                    </div>
+                                </AccordionTrigger>
+                                <AccordionContent className="text-sm text-muted-foreground whitespace-pre-wrap">
+                                    {analysis.scientificNovelty}
+                                </AccordionContent>
+                            </AccordionItem>
+                            <AccordionItem value="methods">
+                                <AccordionTrigger className="text-base">
+                                    <div className="flex items-center gap-2">
+                                        <TestTube className="h-5 w-5"/>
+                                        Key Methodologies
+                                    </div>
+                                </AccordionTrigger>
+                                <AccordionContent>
+                                    <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
+                                        {analysis.keyMethodologies.map((method, i) => (
+                                            <li key={i}>{method}</li>
+                                        ))}
+                                    </ul>
+                                </AccordionContent>
+                            </AccordionItem>
+                             <AccordionItem value="impact">
+                                <AccordionTrigger className="text-base">
+                                     <div className="flex items-center gap-2">
+                                        <Target className="h-5 w-5"/>
+                                        Potential Impact
+                                    </div>
+                                </AccordionTrigger>
+                                <AccordionContent className="text-sm text-muted-foreground whitespace-pre-wrap">
+                                    {analysis.potentialImpact}
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
+                    )}
                 </div>
             </div>
         </ScrollArea>

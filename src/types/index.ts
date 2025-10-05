@@ -14,3 +14,9 @@ export type GapAnalysisResult = {
   knowledgeGaps: string[];
   conflictingFindings: string[];
 } | null;
+
+export type PublicationAnalysis = {
+  scientificNovelty: string;
+  keyMethodologies: string[];
+  potentialImpact: string;
+} | null;
