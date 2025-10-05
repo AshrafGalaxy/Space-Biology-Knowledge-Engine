@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useDashboard } from '@/hooks/use-dashboard';
+import { useDashboard } from '@/hooks/use-dashboard.tsx';
 import type { UserRole } from '@/types';
 import { FlaskConical, Briefcase, Rocket, Info } from 'lucide-react';
 import Link from 'next/link';
@@ -42,10 +42,10 @@ export function Header() {
         </Link>
         <Select value={userRole} onValueChange={(value) => setUserRole(value as UserRole)}>
           <SelectTrigger className="w-[200px] h-9">
-             <div className="flex items-center">
-                {roleIcons[userRole]}
-                <SelectValue placeholder="Select a role" />
-              </div>
+            <div className="flex items-center">
+              {roleIcons[userRole]}
+              <span>{userRole}</span>
+            </div>
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="Scientist">
