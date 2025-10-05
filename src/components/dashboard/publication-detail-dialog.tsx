@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useDashboard } from '@/hooks/use-dashboard';
+import { useDashboard } from '@/hooks/use-dashboard.tsx';
 import {
   Dialog,
   DialogContent,

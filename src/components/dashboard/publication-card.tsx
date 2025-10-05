@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { useDashboard } from '@/hooks/use-dashboard';
+import { useDashboard } from '@/hooks/use-dashboard.tsx';
 import { ArrowRight, CheckSquare, Square } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Checkbox } from '../ui/checkbox';

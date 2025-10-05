@@ -9,7 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { useDashboard } from '@/hooks/use-dashboard';
+import { useDashboard } from '@/hooks/use-dashboard.tsx';
 import type { Publication, SortingState } from '@/types';
 import { Checkbox } from '../ui/checkbox';
 import { Button } from '../ui/button';

@@ -3,7 +3,7 @@
 import { useState, useTransition } from 'react';
 import { runResearchProposal } from '@/app/actions';
 import type { ProposeResearchOutput } from '@/ai/flows/propose-research';
-import { useDashboard } from '@/hooks/use-dashboard';
+import { useDashboard } from '@/hooks/use-dashboard.tsx';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';

@@ -1,6 +1,6 @@
 'use client';
 
-import { useDashboard } from '@/hooks/use-dashboard';
+import { useDashboard } from '@/hooks/use-dashboard.tsx';
 import { Button } from '../ui/button';
 import { AlertTriangle, CheckCheck, Loader2, TestTube2, X } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';

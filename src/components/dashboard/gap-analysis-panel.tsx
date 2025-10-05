@@ -1,6 +1,6 @@
 'use client';
 
-import { useDashboard } from '@/hooks/use-dashboard';
+import { useDashboard } from '@/hooks/use-dashboard.tsx';
 import { Button } from '@/components/ui/button';
 import { runGapAnalysis } from '@/app/actions';
 import { useTransition } from 'react';

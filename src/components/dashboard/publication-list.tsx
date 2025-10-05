@@ -1,6 +1,6 @@
 'use client';
 
-import { useDashboard } from '@/hooks/use-dashboard';
+import { useDashboard } from '@/hooks/use-dashboard.tsx';
 import { PublicationDataTable } from './publication-data-table';
 import { PublicationCard } from './publication-card';
 import { Button } from '../ui/button';
