@@ -7,10 +7,10 @@ import { PublicationList } from './publication-list';
 import { KnowledgeGraph } from './knowledge-graph';
 import { GapAnalysisPanel } from './gap-analysis-panel';
 import PublicationDetailDialog from './publication-detail-dialog';
-import { Card, CardContent } from '../ui/card';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '../ui/sheet';
 import { useState } from 'react';
 import ResearchTimeline from './research-timeline';
+import ComparisonPanel from './comparison-panel';
 
 function DashboardView() {
   const { userRole, isFiltered } = useDashboard();
@@ -26,10 +26,10 @@ function DashboardView() {
         </div>
 
         {/* Mobile Filter Panel in a Sheet */}
-        <Sheet open={isFilterPanelOpen} onOpenChange={setIsFilterPanelOpen}>
+         <Sheet open={isFilterPanelOpen} onOpenChange={setIsFilterPanelOpen}>
           <SheetContent side="left" className="lg:hidden p-0 w-80">
-            <SheetHeader className="sr-only">
-              <SheetTitle>Filter and Explore Concepts</SheetTitle>
+             <SheetHeader className="p-4 border-b">
+               <SheetTitle className="text-lg font-semibold">Filter and Explore</SheetTitle>
             </SheetHeader>
             <FilterPanel />
           </SheetContent>
@@ -47,21 +47,13 @@ function DashboardView() {
               </div>
             )}
 
-            {userRole === 'Manager' && (
-              <Card>
-                <CardContent className="p-6">
-                  <h2 className="font-headline text-2xl mb-4">Publication Overview</h2>
-                  <p className="text-muted-foreground">Manager view focuses on high-level summaries and trends. The knowledge graph and deep analysis tools are hidden for clarity.</p>
-                </CardContent>
-              </Card>
-            )}
-
             <ResearchTimeline />
             <PublicationList title={isFiltered ? 'Filtered Publications' : 'All Publications'} />
           </div>
         </main>
       </div>
       <PublicationDetailDialog />
+      <ComparisonPanel />
     </div>
   );
 }

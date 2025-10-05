@@ -1,7 +1,9 @@
 'use client';
 
-import { createContext, useContext, useState, useMemo, useEffect } from 'react';
+import { createContext, useContext, useState, useMemo, useEffect, useCallback } from 'react';
 import type { Publication, UserRole, GapAnalysisResult } from '@/types';
+import { AnimatePresence, motion } from 'framer-motion';
+
 
 interface DashboardContextType {
   publications: Publication[];
@@ -21,6 +23,10 @@ interface DashboardContextType {
   setAnalysisResult: (result: GapAnalysisResult) => void;
   clearFilters: () => void;
   isFiltered: boolean;
+  comparisonSet: Set<string>;
+  toggleComparison: (id: string) => void;
+  clearComparison: () => void;
+  getPublicationById: (id: string) => Publication | undefined;
 }
 
 const DashboardContext = createContext<DashboardContextType | undefined>(undefined);
@@ -40,6 +46,7 @@ export function DashboardProvider({
   const [selectedPublicationId, setSelectedPublicationId] = useState<string | null>(null);
   const [isLoadingAnalysis, setIsLoadingAnalysis] = useState(false);
   const [analysisResult, setAnalysisResult] = useState<GapAnalysisResult>(null);
+  const [comparisonSet, setComparisonSet] = useState<Set<string>>(new Set());
 
   const toggleConcept = (concept: string) => {
     setActiveConcepts(prev => {
@@ -52,6 +59,20 @@ export function DashboardProvider({
       return newSet;
     });
   };
+
+  const toggleComparison = (id: string) => {
+    setComparisonSet(prev => {
+        const newSet = new Set(prev);
+        if (newSet.has(id)) {
+            newSet.delete(id);
+        } else {
+            newSet.add(id);
+        }
+        return newSet;
+    })
+  }
+
+  const clearComparison = () => setComparisonSet(new Set());
 
   const clearFilters = () => {
     setActiveConcepts(new Set());
@@ -85,6 +106,10 @@ export function DashboardProvider({
     return publications.find(p => p.id === selectedPublicationId) ?? null;
   }, [selectedPublicationId, publications]);
 
+  const getPublicationById = useCallback((id: string) => {
+    return publications.find(p => p.id === id);
+  }, [publications]);
+
   // Reset analysis when filters change
   useEffect(() => {
     setAnalysisResult(null);
@@ -108,6 +133,10 @@ export function DashboardProvider({
     setAnalysisResult,
     clearFilters,
     isFiltered,
+    comparisonSet,
+    toggleComparison,
+    clearComparison,
+    getPublicationById,
   };
 
   return (
