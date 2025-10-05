@@ -9,9 +9,6 @@ export function PublicationList() {
 
   return (
     <div className="flex-1 flex flex-col min-h-0">
-       <h2 className="font-headline text-2xl px-1 pb-4">
-        Filtered Publications ({filteredPublications.length})
-      </h2>
       <ScrollArea className="flex-1">
         <div className="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4 pr-1">
         {filteredPublications.length > 0 ? (

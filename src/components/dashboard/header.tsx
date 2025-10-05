@@ -14,7 +14,7 @@ import { FlaskConical, Briefcase, Rocket, Info } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '../ui/button';
 
-const roleIcons = {
+const roleIcons: Record<UserRole, React.ReactNode> = {
   Scientist: <FlaskConical className="w-4 h-4 mr-2" />,
   Manager: <Briefcase className="w-4 h-4 mr-2" />,
   'Mission Architect': <Rocket className="w-4 h-4 mr-2" />,
