@@ -2,7 +2,7 @@
 
 SpaceBio Explorer is an AI-powered dashboard designed to help researchers, managers, and mission architects at NASA explore, analyze, and discover insights from a vast library of bioscience publications. The application leverages Generative AI to perform complex analysis, identify knowledge gaps, and propose new research directions based on the existing corpus of scientific literature.
 
-![SpaceBio Explorer Dashboard Screenshot](https://raw.githubusercontent.com/firebase/studio-samples/main/spacebio-explorer/docs/screenshot.png)
+![SpaceBio Explorer Dashboard Screenshots]([(https://drive.google.com/file/d/1IW3kcTjTkz0rbQQmrXzH9VPvB9Tb-M2d/view?usp=sharing)])
 
 ## Key Features
 
