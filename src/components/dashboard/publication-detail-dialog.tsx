@@ -22,19 +22,25 @@ export default function PublicationDetailDialog() {
   const { selectedPublication, setSelectedPublicationId } = useDashboard();
   const [analysis, setAnalysis] = useState<PublicationAnalysis | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [analysisTriggered, setAnalysisTriggered] = useState(false);
 
   useEffect(() => {
+    // Reset state when the publication changes
     if (selectedPublication) {
       setAnalysis(null);
-      setIsLoading(true);
-      const performAnalysis = async () => {
-        const result = await runPublicationAnalysis(selectedPublication);
-        setAnalysis(result);
-        setIsLoading(false);
-      };
-      performAnalysis();
+      setAnalysisTriggered(false);
+      setIsLoading(false);
     }
   }, [selectedPublication]);
+  
+  const handleAnalysisClick = async () => {
+    if (!selectedPublication) return;
+    setIsLoading(true);
+    setAnalysisTriggered(true);
+    const result = await runPublicationAnalysis(selectedPublication);
+    setAnalysis(result);
+    setIsLoading(false);
+  };
 
 
   const handleOpenChange = (isOpen: boolean) => {
@@ -76,13 +82,23 @@ export default function PublicationDetailDialog() {
                         <WandSparkles className="h-5 w-5 text-primary" />
                         AI-Powered Analysis
                     </h2>
+                    {!analysisTriggered && (
+                       <Button onClick={handleAnalysisClick} disabled={isLoading}>
+                         {isLoading ? (
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                         ) : (
+                            <WandSparkles className="mr-2 h-4 w-4" />
+                         )}
+                         Analyze Publication
+                       </Button>
+                    )}
                     {isLoading && (
                          <div className="flex items-center justify-center py-8 text-muted-foreground">
                             <Loader2 className="mr-3 h-5 w-5 animate-spin" />
                             <span>AI is analyzing the publication...</span>
                         </div>
                     )}
-                    {analysis && (
+                    {analysis && !isLoading && (
                         <Accordion type="multiple" defaultValue={['novelty', 'methods', 'impact']} className="w-full">
                             <AccordionItem value="novelty">
                                 <AccordionTrigger className="text-base">
