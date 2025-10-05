@@ -8,6 +8,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4136787/',
     summary: "The Bion-M 1 space mission studied the effects of microgravity on mice. This paper details the rigorous training and selection process used to prepare the mice for the 30-day spaceflight.",
     keyConcepts: ["Bion-M 1", "spaceflight", "mice", "training", "selection"],
+    publicationYear: 2014,
   },
   {
     id: 'PMC3630201',
@@ -15,6 +16,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3630201/',
     summary: 'This study investigates the cellular mechanisms behind bone loss in microgravity, a major concern for astronauts. Using a mouse model, it demonstrates that simulated microgravity leads to significant pelvic bone loss.',
     keyConcepts: ["microgravity", "bone loss", "osteoclasts", "osteocytes", "osteoblasts"],
+    publicationYear: 2013,
   },
   {
     id: 'PMC11988870',
@@ -22,6 +24,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11988870/',
     summary: 'This article reviews the impact of microgravity on stem cells and their ability to regenerate tissues. It highlights that spaceflight conditions can impair stem cell function, affecting processes like differentiation and proliferation.',
     keyConcepts: ["microgravity", "stem cells", "tissue regeneration", "spaceflight", "cell differentiation"],
+    publicationYear: 2024,
   },
   {
     id: 'PMC7998608',
@@ -29,6 +32,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7998608/',
     summary: "This study found that simulated microgravity negatively impacts the ability of embryonic stem cells to differentiate into specialized cell types and regenerate tissue.",
     keyConcepts: ["microgravity", "embryonic stem cells", "cell differentiation", "regenerative potential", "tissue regeneration"],
+    publicationYear: 2021,
   },
   {
     id: 'PMC5587110',
@@ -36,6 +40,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5587110/',
     summary: 'This paper describes the successful validation of a new system for studying gene expression in space. The technology allows for the isolation of RNA and analysis using quantitative real-time PCR aboard the International Space Station (ISS).',
     keyConcepts: ["microgravity", "RNA isolation", "gene expression", "qPCR", "International Space Station (ISS)"],
+    publicationYear: 2017,
   },
   {
     id: 'PMC8396460',
@@ -43,6 +48,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8396460/',
     summary: "This study analyzed the effects of spaceflight on the hearts of mice. The findings show that the space environment alters the expression of genes related to oxidative stress and cell cycle regulation.",
     keyConcepts: ["spaceflight", "oxidative stress", "cell cycle", "gene expression", "cardiac muscle"],
+    publicationYear: 2021,
   },
   {
     id: 'PMC5666799',
@@ -50,6 +56,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5666799/',
     summary: "This research explores how different types and doses of space-like radiation affect the skeletal system. It found that the body's oxidative stress response varies depending on the ion and dose of radiation.",
     keyConcepts: ["space radiation", "oxidative stress", "skeletal system", "dose-dependent effects", "ion-dependent effects"],
+    publicationYear: 2017,
   },
   {
     id: 'PMC5460236',
@@ -57,6 +64,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5460236/',
     summary: "This article discusses NASA's approach to translating basic life sciences research into practical applications for astronaut health during long-duration space missions.",
     keyConcepts: ["translational research", "space medicine", "human exploration", "NASA", "life sciences"],
+    publicationYear: 2017,
   },
   {
     id: 'PMC6222041',
@@ -64,6 +72,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6222041/',
     summary: "This paper presents a new, highly precise method for testing the strength and quality of vertebrae in small animals. By applying cyclic loads, researchers can better understand how bone responds to mechanical stress.",
     keyConcepts: ["bone quality", "vertebrae", "cyclic loading", "mechanical testing", "small animal models"],
+    publicationYear: 2018,
   },
   {
     id: 'PMC6813909',
@@ -71,6 +80,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6813909/',
     summary: "This study examined how ionizing radiation affects the collagen and mechanical strength of mouse vertebrae outside of a living organism. The results show that radiation can degrade collagen structure and weaken the bone.",
     keyConcepts: ["ionizing radiation", "collagen", "bone mechanics", "vertebrae", "ex vivo"],
+    publicationYear: 2019,
   },
   {
     id: 'PMC4095884',
@@ -78,6 +88,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4095884/',
     summary: 'This research found that the absence of the protein gamma-sarcoglycan in mouse skeletal muscle changes how the muscle responds to mechanical stress. Specifically, it affects the signaling of p70S6 kinase, a key regulator of muscle growth.',
     keyConcepts: ["gamma-sarcoglycan", "p70S6 kinase", "skeletal muscle", "mechanical stress", "muscle growth"],
+    publicationYear: 2014,
   },
   {
     id: 'PMC3040128',
@@ -85,6 +96,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3040128/',
     summary: 'This study on Arabidopsis thaliana plants reveals that two proteins, AtRabD2b and AtRabD2c, play similar and crucial roles in the development of pollen and the growth of the pollen tube.',
     keyConcepts: ["Arabidopsis thaliana", "pollen development", "pollen tube growth", "Rab GTPases", "overlapping functions"],
+    publicationYear: 2011,
   },
   {
     id: 'PMC3177255',
@@ -92,6 +104,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3177255/',
     summary: 'This research identifies the protein TNO1 in Arabidopsis plants as a key player in salt tolerance. The study shows that TNO1 is also involved in vacuolar trafficking, a process for transporting materials within the plant cell.',
     keyConcepts: ["Arabidopsis", "salt tolerance", "TNO1", "vacuolar trafficking", "plant stress"],
+    publicationYear: 2011,
   },
   {
     id: 'PMC11500582',
@@ -99,6 +112,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11500582/',
     summary: 'This study explores the roles of SNARE proteins in the trans-Golgi network of Arabidopsis thaliana. It found that different SNARE proteins can perform similar functions, a concept known as functional redundancy.',
     keyConcepts: ["Arabidopsis thaliana", "SNARE proteins", "trans-Golgi network", "functional redundancy", "vesicle trafficking"],
+    publicationYear: 2023,
   },
   {
     id: 'PMC5387210',
@@ -106,6 +120,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5387210/',
     summary: 'This article reviews the fascinating ways plant roots grow, specifically the "waving" and "skewing" movements. It discusses the genetic and environmental factors that influence these growth patterns.',
     keyConcepts: ["root growth", "waving", "skewing", "plant development", "gravitropism"],
+    publicationYear: 2017,
   },
   {
     id: 'PMC4642138',
@@ -113,6 +128,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4642138/',
     summary: "This research demonstrates the importance of the protein TNO1 in plant root development. It shows that both gravitropism and the formation of lateral roots are dependent on TNO1.",
     keyConcepts: ["gravitropism", "lateral roots", "TNO1", "trans-Golgi network", "Arabidopsis"],
+    publicationYear: 2015,
   },
   {
     id: 'PMC5387210-2',
@@ -120,6 +136,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5387210/',
     summary: 'This study identifies TNO1, a protein that interacts with SNARE proteins in the trans-Golgi network, as a regulator of root skewing in the plant Arabidopsis thaliana.',
     keyConcepts: ["TNO1", "root skewing", "Arabidopsis thaliana", "SNARE proteins", "trans-Golgi network"],
+    publicationYear: 2017,
   },
   {
     id: 'PMC2915878',
@@ -127,6 +144,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2915878/',
     summary: "This research in Drosophila (fruit flies) reveals a partnership between two proteins, Spag4 and Yuri Gagarin. They work together to ensure the proper connection between the basal body and the nucleus during sperm development.",
     keyConcepts: ["Drosophila", "spermatogenesis", "Spag4", "Yuri Gagarin", "basal body"],
+    publicationYear: 2010,
   },
   {
     id: 'PMC3901686',
@@ -134,6 +152,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3901686/',
     summary: "This study on fruit flies (Drosophila) shows that their immune response to infection, specifically the Toll signaling pathway, is affected by both gravity changes and spaceflight.",
     keyConcepts: ["Drosophila", "spaceflight", "gravity", "immune response", "Toll pathway"],
+    publicationYear: 2014,
   },
   {
     id: 'PMC6985101',
@@ -141,6 +160,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6985101/',
     summary: "By analyzing data from multiple space missions, this study found a consistent pattern of disrupted lipid (fat) metabolism in the livers of mice that have been in space.",
     keyConcepts: ["spaceflight", "lipid metabolism", "mouse liver", "multi-omics", "dysregulation"],
+    publicationYear: 2020,
   },
   {
     id: 'PMC6387434',
@@ -148,6 +168,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6387434/',
     summary: 'This study, using data from the NASA GeneLab database, suggests that long-term exposure to space radiation could harm the cardiovascular system. The proposed mechanism involves the activation of a protein called FYN by reactive oxygen species.',
     keyConcepts: ["space radiation", "cardiovascular system", "GeneLab", "FYN", "reactive oxygen species"],
+    publicationYear: 2019,
   },
   {
     id: 'PMC6371294',
@@ -155,6 +176,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6371294/',
     summary: 'This paper discusses the importance of making large biological datasets ("omics" data) FAIR: Findable, Accessible, Interoperable, and Reusable.',
     keyConcepts: ["FAIR data", "omics", "open-access", "usability", "data sharing"],
+    publicationYear: 2019,
   },
   {
     id: 'PMC7072278',
@@ -162,6 +184,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7072278/',
     summary: 'This article showcases how the NASA GeneLab platform is used to study the effects of space radiation on animals. By providing a centralized database of omics data, GeneLab helps researchers understand the biological responses to the space environment.',
     keyConcepts: ["NASA GeneLab", "space radiation", "animal models", "omics data", "biological response"],
+    publicationYear: 2020,
   },
   {
     id: 'PMC8441986',
@@ -169,6 +192,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8441986/',
     summary: "This study identified a specific 'signature' of microRNAs (miRNAs) that are present in the bloodstream of astronauts after spaceflight. These miRNAs can be used as biomarkers to monitor health.",
     keyConcepts: ["microRNA", "spaceflight", "biomarkers", "countermeasures", "astronaut health"],
+    publicationYear: 2021,
   },
   {
     id: 'PMC9400218',
@@ -176,6 +200,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9400218/',
     summary: "This research utilized a machine learning algorithm to analyze the microbiome of surfaces on the International Space Station (ISS) to identify and characterize antimicrobial resistance.",
     keyConcepts: ["machine learning", "antimicrobial resistance", "microbiome", "International Space Station", "surface contamination"],
+    publicationYear: 2022,
   },
   {
     id: 'PMC9267413',
@@ -183,6 +208,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9267413/',
     summary: "This review article explores the potential health risks for female astronauts, specifically focusing on whether spaceflight could increase the risk of developing gynecological cancers.",
     keyConcepts: ["spaceflight", "female astronauts", "cancer risk", "gynecology", "health risks"],
+    publicationYear: 2022,
   },
   {
     id: 'PMC9576569',
@@ -190,6 +216,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9576569/',
     summary: 'This study found that the gene expression related to muscle atrophy (muscle wasting) during spaceflight in mice is connected to a metabolic "crosstalk" between the liver and the muscles.',
     keyConcepts: ["muscle atrophy", "spaceflight", "gene expression", "metabolic crosstalk", "liver-muscle interaction"],
+    publicationYear: 2022,
   },
   {
     id: 'PMC10789781',
@@ -197,6 +224,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10789781/',
     summary: 'This research shows that the way DNA is organized within chromosomes and its epigenetic structure can influence how it gets damaged by galactic cosmic radiation. Specifically, it affects DNA methylation patterns.',
     keyConcepts: ["galactic cosmic radiation", "DNA methylation", "epigenetics", "chromosomal positioning", "DNA damage"],
+    publicationYear: 2024,
   },
   {
     id: 'PMC10772081',
@@ -204,6 +232,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10772081/',
     summary: 'This review article provides a detailed overview of the effects of SARS-CoV-2 infection on the human body, from the extracellular environment to systemic consequences.',
     keyConcepts: ["SARS-CoV-2", "COVID-19", "systemic effects", "extracellular matrix", "pathophysiology"],
+    publicationYear: 2024,
   },
   {
     id: 'PMC11166946',
@@ -211,6 +240,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11166946/',
     summary: "This study reveals that spaceflight can alter biomarkers associated with aging and frailty, suggesting that the stresses of space travel may accelerate parts of the aging process.",
     keyConcepts: ["spaceflight", "aging", "frailty", "biomarkers", "astronaut health"],
+    publicationYear: 2024,
   },
   {
     id: 'PMC11166944',
@@ -218,6 +248,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11166944/',
     summary: 'This research demonstrates that damage caused by space radiation can be mitigated by inhibiting specific microRNAs (miRNAs) that are known to be affected by spaceflight.',
     keyConcepts: ["space radiation", "DNA damage", "microRNAs", "countermeasures", "spaceflight"],
+    publicationYear: 2024,
   },
   {
     id: 'PMC11166968',
@@ -225,6 +256,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11166968/',
     summary: 'This article discusses the ethical challenges that arise as private companies become more involved in space exploration, covering topics like astronaut well-being and environmental protection.',
     keyConcepts: ["space exploration", "ethics", "commercial spaceflight", "astronaut welfare", "policy"],
+    publicationYear: 2024,
   },
   {
     id: 'PMC7000411',
@@ -232,6 +264,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7000411/',
     summary: 'This study on the fruit fly, Drosophila melanogaster, found that its innate immune system, the first line of defense against pathogens, is changed by spaceflight.',
     keyConcepts: ["Drosophila melanogaster", "spaceflight", "innate immunity", "immune system", "gravity"],
+    publicationYear: 2020,
   },
   {
     id: 'PMC7787258',
@@ -239,6 +272,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7787258/',
     summary: 'This study on fruit flies (Drosophila) shows that long-term exposure to microgravity weakens the ability of their hearts to contract and starts a process of cardiac remodeling.',
     keyConcepts: ["microgravity", "cardiac contractility", "cardiac remodeling", "Drosophila", "spaceflight"],
+    publicationYear: 2020,
   },
   {
     id: 'PMC8716943',
@@ -246,6 +280,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8716943/',
     summary: "This article explores how the actin cytoskeleton, a key structural component within plant cells, is involved in sensing and responding to gravity.",
     keyConcepts: ["plant gravitropism", "actin cytoskeleton", "gravity sensing", "signal transduction", "plant biology"],
+    publicationYear: 2022,
   },
   {
     id: 'PMC4826010',
@@ -253,6 +288,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4826010/',
     summary: 'This research identifies a protein called HLB1 in Arabidopsis plants. It plays a crucial role at the junction of two cellular pathways, exocytosis and endocytosis, within the trans-Golgi Network/Early Endosome (TGN/EE).',
     keyConcepts: ["Arabidopsis", "HLB1 protein", "tetratricopeptide repeat", "exocytosis", "endocytosis"],
+    publicationYear: 2016,
   },
   {
     id: 'PMC6048781',
@@ -260,6 +296,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6048781/',
     summary: 'This study identifies a protein called ERULUS in plants. It acts as a receptor on the cell surface and is essential for root hair growth by controlling calcium ion oscillations.',
     keyConcepts: ["root hair growth", "receptor-like kinase", "ERULUS", "calcium signaling", "Arabidopsis"],
+    publicationYear: 2018,
   },
   {
     id: 'PMC7010715',
@@ -267,6 +304,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7010715/',
     summary: 'This research shows that plant hormones called brassinosteroids can prevent roots from growing in a straight line by altering the organization of actin filaments.',
     keyConcepts: ["brassinosteroids", "root growth", "actin filaments", "autotropism", "plant hormones"],
+    publicationYear: 2020,
   },
   {
     id: 'PMC7503278',
@@ -274,6 +312,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7503278/',
     summary: 'This paper describes a technique for visualizing calcium signaling in the roots of Arabidopsis seedlings using a genetically encoded calcium indicator called GCaMP3.',
     keyConcepts: ["calcium signaling", "Arabidopsis thaliana", "GCaMP3", "bioimaging", "root development"],
+    publicationYear: 2020,
   },
   {
     id: 'PMC8364238',
@@ -281,6 +320,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8364238/',
     summary: 'This study investigates where and when two proteins, SPIRRIG and WAVE/SCAR, are located in plant cells to show their involvement in the development of root hairs.',
     keyConcepts: ["root hair", "actin cytoskeleton", "SPIRRIG", "WAVE/SCAR complex", "plant cell biology"],
+    publicationYear: 2021,
   },
   {
     id: 'PMC11579474',
@@ -288,6 +328,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11579474/',
     summary: "This article reviews the effects of microgravity on the human body, focusing on the stress it places on bones and connective tissues, covering topics like bone density loss.",
     keyConcepts: ["microgravity", "bone loss", "connective tissue", "spaceflight", "astronaut health"],
+    publicationYear: 2023,
   },
   {
     id: 'PMC2998437',
@@ -295,6 +336,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2998437/',
     summary: "This study investigates the structure of the MscL protein from S. aureus. It found that in a living cell, MscL exists as a pentamer, but can have a variable number of subunits in vitro.",
     keyConcepts: ["MscL", "Staphylococcus aureus", "mechanosensitive channel", "membrane protein", "oligomeric state"],
+    publicationYear: 2010,
   },
   {
     id: 'PMC3005423',
@@ -302,6 +344,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3005423/',
     summary: 'This research explores the possibility of controlling the passage of charged molecules through the MscL channel, which can act as a "nanovalve."',
     keyConcepts: ["MscL", "nanovalve", "ion channel", "mechanosensitive channel", "permeation"],
+    publicationYear: 2010,
   },
   {
     id: 'PMC3190158',
@@ -309,6 +352,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3190158/',
     summary: "This study confirms that a shortened version of the MscL protein consistently forms a stable complex of a specific size within living cells.",
     keyConcepts: ["mechanosensitive channel", "MscL", "oligomeric state", "in vivo", "membrane protein"],
+    publicationYear: 2011,
   },
   {
     id: 'PMC3289768',
@@ -316,6 +360,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3289768/',
     summary: 'This paper outlines three different methods for changing the size of the opening (pore) of the MscL channel, a key step in developing it as a controllable "nanovalve."',
     keyConcepts: ["MscL", "nanovalve", "pore size", "channel modulation", "mechanosensitive channels"],
+    publicationYear: 2012,
   },
   {
     id: 'PMC3508904',
@@ -323,6 +368,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3508904/',
     summary: "This research investigates how different parts of the MscL protein interact with each other at the boundary between the cell's cytoplasm and its membrane.",
     keyConcepts: ["MscL", "protein-protein interactions", "mechanosensitive channel", "lipid interface", "protein dynamics"],
+    publicationYear: 2012,
   },
   {
     id: 'PMC3430326',
@@ -330,6 +376,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3430326/',
     summary: 'This article explains the function of two families of proteins, MscS and MscL, in microbes. They act as "emergency release valves" that open in response to physical stress.',
     keyConcepts: ["mechanosensitive channels", "MscS", "MscL", "microbial physiology", "emergency release valves"],
+    publicationYear: 2012,
   },
   {
     id: 'PMC3593973',
@@ -337,6 +384,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3593973/',
     summary: "By creating hybrid proteins (chimeras), this study identified a single amino acid at the protein-lipid interface that is crucial for controlling the MscL channel's kinetics and mechanosensitivity.",
     keyConcepts: ["MscL", "mechanosensitive channel", "channel kinetics", "protein engineering", "chimeras"],
+    publicationYear: 2013,
   },
   {
     id: 'PMC5018776',
@@ -344,6 +392,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5018776/',
     summary: 'This study presents evidence from the draft genome of a tardigrade (water bear) that suggests these resilient creatures have acquired a significant number of genes from other organisms through horizontal gene transfer.',
     keyConcepts: ["tardigrade", "horizontal gene transfer", "genome", "extremophile", "evolution"],
+    publicationYear: 2016,
   },
   {
     id: 'PMC4896697',
@@ -351,6 +400,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4896697/',
     summary: 'This article is a response to other researchers, defending the original finding of extensive horizontal gene transfer in the tardigrade Hypsibius dujardini.',
     keyConcepts: ["tardigrade", "horizontal gene transfer", "Hypsibius dujardini", "genome assembly", "bioinformatics"],
+    publicationYear: 2016,
   },
   {
     id: 'PMC11127935',
@@ -358,6 +408,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11127935/',
     summary: "This study reveals that tardigrades use a special class of proteins, called intrinsically disordered proteins (IDPs), to protect their cells from damage when they completely dry out.",
     keyConcepts: ["tardigrades", "desiccation", "intrinsically disordered proteins", "anhydrobiosis", "stress tolerance"],
+    publicationYear: 2022,
   },
   {
     id: 'PMC11831363',
@@ -365,6 +416,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11831363/',
     summary: 'This publication likely details the process and biological mechanisms of desiccation (extreme drying) in the tardigrade species Hypsibius exemplaris.',
     keyConcepts: ["desiccation", "Hypsibius exemplaris", "tardigrade", "anhydrobiosis", "stress response"],
+    publicationYear: 2024,
   },
   {
     id: 'PMC11930778',
@@ -372,6 +424,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11930778/',
     summary: "This article delves into the biology of intrinsically disordered proteins (IDPs) in tardigrades, explaining how they play a crucial role in protecting the animal's cells during extreme stress.",
     keyConcepts: ["tardigrades", "intrinsically disordered proteins", "stress tolerance", "anhydrobiosis", "extremophiles"],
+    publicationYear: 2024,
   },
   {
     id: 'PMC8816950',
@@ -379,6 +432,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8816950/',
     summary: 'This study investigates what happens inside a tardigrade (Paramacrobiotus spatialis) when it enters a state of suspended animation, looking at reactive oxygen species and bioprotectants.',
     keyConcepts: ["tardigrade", "anhydrobiosis", "reactive oxygen species", "bioprotectants", "Paramacrobiotus spatialis"],
+    publicationYear: 2022,
   },
   {
     id: 'PMC3774184',
@@ -386,6 +440,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3774184/',
     summary: 'This paper introduces a new mouse model ("partial weight suspension") for studying the effects of reduced mechanical load on the musculoskeletal system, simulating conditions like microgravity.',
     keyConcepts: ["partial weight suspension", "musculoskeletal loading", "murine model", "microgravity simulation", "bone loss"],
+    publicationYear: 2013,
   },
   {
     id: 'PMC4118556',
@@ -393,6 +448,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4118556/',
     summary: 'This study demonstrates that when the mechanical load on the musculoskeletal system is partially reduced, there is a proportional decrease in bone density, bone structure, and muscle mass.',
     keyConcepts: ["mechanical loading", "bone density", "bone architecture", "muscle mass", "musculoskeletal adaptation"],
+    publicationYear: 2014,
   },
   {
     id: 'PMC4653813',
@@ -400,6 +456,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4653813/',
     summary: "This study found that both spaceflight and hindlimb unloading cause similar changes in the electrical properties of the gastrocnemius muscle in mice, supporting hindlimb unloading as a valid model.",
     keyConcepts: ["spaceflight", "hindlimb unloading", "gastrocnemius muscle", "electrical impedance", "muscle atrophy"],
+    publicationYear: 2015,
   },
   {
     id: 'PMC6915713',
@@ -407,6 +464,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6915713/',
     summary: 'This research shows that spaceflight triggers "lipotoxic" pathways in the livers of mice, leading to an accumulation of toxic fat molecules.',
     keyConcepts: ["spaceflight", "lipotoxicity", "mouse liver", "metabolism", "fatty liver disease"],
+    publicationYear: 2019,
   },
   {
     id: 'PMC6124165',
@@ -414,6 +472,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6124165/',
     summary: 'This study explores a potential countermeasure for bone loss, showing that a specific fusion protein can increase bone mass and formation in mice undergoing hindlimb unloading.',
     keyConcepts: ["bone loss", "countermeasure", "BMPR1A", "hindlimb unloading", "bone formation"],
+    publicationYear: 2018,
   },
   {
     id: 'PMC8509868',
@@ -421,6 +480,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8509868/',
     summary: 'This study used advanced sequencing techniques to examine gene expression in the cortical bone of female mice after hindlimb unloading, revealing specific changes in gene activity.',
     keyConcepts: ["RNA-Seq", "gene expression", "cortical bone", "hindlimb unloading", "female mice"],
+    publicationYear: 2021,
   },
   {
     id: 'PMC11063234',
@@ -428,6 +488,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11063234/',
     summary: 'This research provides a detailed analysis of proteins and their modifications in cardiovascular tissues after long-term exposure to simulated space radiation.',
     keyConcepts: ["proteomics", "phosphoproteomics", "cardiovascular tissue", "space radiation", "long-term exposure"],
+    publicationYear: 2023,
   },
   {
     id: 'PMC5672023',
@@ -435,6 +496,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5672023/',
     summary: "This study investigated how the balance system of land snails adapted to a 30-day spaceflight and how they readapted to Earth's gravity upon return.",
     keyConcepts: ["vestibular system", "spaceflight", "adaptation", "readaptation", "land snail"],
+    publicationYear: 2017,
   },
   {
     id: 'PMC5899691',
@@ -442,6 +504,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5899691/',
     summary: "This paper describes the structure of the utricular otolith organ, a part of the inner ear responsible for sensing gravity, in the toadfish.",
     keyConcepts: ["utricle", "otolith", "toadfish", "vestibular system", "gravity sensing"],
+    publicationYear: 2018,
   },
   {
     id: 'PMC6204554',
@@ -449,6 +512,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6204554/',
     summary: 'This study examined how the structure and function of the utricle in toadfish are affected by different levels and durations of altered gravity.',
     keyConcepts: ["utricle", "altered gravity", "readaptation", "toadfish", "vestibular system"],
+    publicationYear: 2018,
   },
   {
     id: 'PMC4064004',
@@ -456,6 +520,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4064004/',
     summary: 'This article reviews the organization of the boundary between the endoplasmic reticulum (ER) and the Golgi apparatus, which is crucial for controlling the flow of proteins and lipids.',
     keyConcepts: ["ER-Golgi interface", "membrane traffic", "endoplasmic reticulum", "Golgi apparatus", "protein transport"],
+    publicationYear: 2014,
   },
   {
     id: 'PMC3818365',
@@ -463,13 +528,15 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3818365/',
     summary: "This review focuses on the protein IRE1, a key sensor for ER stress that can determine the cell's fate.",
     keyConcepts: ["IRE1", "ER stress", "unfolded protein response", "cell fate", "apoptosis"],
+    publicationYear: 2013,
   },
   {
     id: 'PMC3981873',
     title: 'Inter-regulation of the unfolded protein response and auxin signaling.',
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3981873/',
     summary: 'This article explores the connection between the unfolded protein response and auxin signaling in plants, suggesting they regulate each other.',
-    keyConcepts: ["unfolded protein response", "auxin signaling", "plant stress", "ER stress", "hormone signaling"],
+    keyConcepts: ["unfolded protein response", "auxin signaling", "plant stress", "hormone signaling"],
+    publicationYear: 2014,
   },
   {
     id: 'PMC4150462',
@@ -477,6 +544,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4150462/',
     summary: 'This article discusses how the shape of the endoplasmic reticulum (ER) is related to its function in how cells respond to stress.',
     keyConcepts: ["endoplasmic reticulum", "ER shape", "stress response", "protein synthesis", "cellular function"],
+    publicationYear: 2014,
   },
   {
     id: 'PMC4378170',
@@ -484,6 +552,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4378170/',
     summary: 'This study shows that a lack of galactose in xyloglucan, a major component of the plant cell wall, leads to its dysfunction and results in dwarfism in Arabidopsis plants.',
     keyConcepts: ["xyloglucan", "galactose", "dwarfism", "Arabidopsis", "plant cell wall"],
+    publicationYear: 2015,
   },
   {
     id: 'PMC4618186',
@@ -491,6 +560,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4618186/',
     summary: 'This review article discusses the unfolded protein response (UPR) in plants, highlighting many unanswered questions about its regulation and function.',
     keyConcepts: ["unfolded protein response", "plants", "ER stress", "IRE1", "bZIP60"],
+    publicationYear: 2015,
   },
   {
     id: 'PMC4453782',
@@ -498,6 +568,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4453782/',
     summary: 'This article explores the debate on how materials are transported between the ER and Golgi in plants, questioning if it is fundamentally different from other eukaryotes.',
     keyConcepts: ["ER-Golgi transport", "plant cells", "vesicles", "tubes", "eukaryotes"],
+    publicationYear: 2015,
   },
   {
     id: 'PMC4902601',
@@ -505,6 +576,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4902601/',
     summary: 'This study reveals that modifying pectin in the plant cell wall affects the link between photosynthesis and plant growth.',
     keyConcepts: ["pectin", "photosynthesis", "plant growth", "cell wall", "pectin methylesterase"],
+    publicationYear: 2016,
   },
   {
     id: 'PMC4776492',
@@ -512,6 +584,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4776492/',
     summary: 'This research identifies genes in Arabidopsis thaliana that are involved in determining the size of the chloroplasts within plant cells.',
     keyConcepts: ["chloroplast", "Arabidopsis thaliana", "gene expression", "cell biology", "organelle size"],
+    publicationYear: 2016,
   },
   {
     id: 'PMC5415411',
@@ -519,6 +592,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5415411/',
     summary: "This article reviews the importance of the unfolded protein response (UPR) in maintaining a stable internal environment in plant cells.",
     keyConcepts: ["unfolded protein response", "cellular homeostasis", "plants", "ER stress", "proteostasis"],
+    publicationYear: 2017,
   },
   {
     id: 'PMC6289879',
@@ -526,6 +600,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6289879/',
     summary: 'This study shows that the activity of an enzyme called NADPH oxidase is necessary for plants to survive stress in the endoplasmic reticulum (ER).',
     keyConcepts: ["NADPH oxidase", "ER stress", "plant survival", "reactive oxygen species", "unfolded protein response"],
+    publicationYear: 2018,
   },
   {
     id: 'PMC7987364',
@@ -533,6 +608,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7987364/',
     summary: 'This research investigates the link between the unfolded protein response (UPR) and the changes in gene expression observed in Arabidopsis plants during spaceflight.',
     keyConcepts: ["unfolded protein response", "spaceflight", "Arabidopsis", "transcriptional reprogramming", "ER stress"],
+    publicationYear: 2021,
   },
   {
     id: 'PMC8099722',
@@ -540,6 +616,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8099722/',
     summary: "A re-examination of the Mars500 experiment revealed that long-term confinement leads to common changes in the gut microbiome of the participants.",
     keyConcepts: ["Mars500", "gut microbiome", "confinement", "astronaut health", "space simulation"],
+    publicationYear: 2021,
   },
   {
     id: 'PMC5116466',
@@ -547,6 +624,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5116466/',
     summary: "This study found that exposure to HZE radiation triggers gene expression changes, some similar to other stresses, but also a specific response related to double-strand breaks in DNA.",
     keyConcepts: ["HZE radiation", "transcriptional response", "DNA double-strand breaks", "clastogenic", "space radiation"],
+    publicationYear: 2016,
   },
   {
     id: 'PMC4033213',
@@ -554,6 +632,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4033213/',
     summary: 'This research in Arabidopsis thaliana compares the effects of high and low linear energy transfer (LET) radiation on the stability of the plant\'s genome, finding high-LET more damaging.',
     keyConcepts: ["genomic stability", "linear energy transfer", "radiation", "Arabidopsis thaliana", "DNA damage"],
+    publicationYear: 2014,
   },
   {
     id: 'PMC6081456',
@@ -561,6 +640,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6081456/',
     summary: 'This paper details the acceleration patterns experienced during parabolic flights, used to simulate microgravity, and describes methods for processing the data.',
     keyConcepts: ["parabolic flight", "microgravity", "acceleration", "data processing", "research methods"],
+    publicationYear: 2018,
   },
   {
     id: 'PMC5955502',
@@ -568,6 +648,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5955502/',
     summary: 'This study examined the effects of spaceflight on the heart and lung tissues of mice, finding changes in the cytoskeleton structure and overall DNA methylation.',
     keyConcepts: ["spaceflight", "cytoskeleton", "DNA methylation", "cardiac tissue", "lung tissue"],
+    publicationYear: 2018,
   },
   {
     id: 'PMC10285634',
@@ -575,6 +656,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10285634/',
     summary: 'This article proposes that the enzyme GSK3 is a promising target for developing countermeasures against muscle and bone loss during spaceflight.',
     keyConcepts: ["spaceflight", "muscle loss", "bone loss", "GSK3", "countermeasures"],
+    publicationYear: 2023,
   },
   {
     id: 'PMC11271499',
@@ -582,6 +664,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11271499/',
     summary: 'This study found that spaceflight causes an increase in calcium leakage in muscle cells, contributing to muscle weakness, and a specific treatment (BuOE) was not effective in preventing it.',
     keyConcepts: ["spaceflight", "sarcoplasmic reticulum", "calcium leak", "muscle weakness", "BuOE"],
+    publicationYear: 2023,
   },
   {
     id: 'PMC6062551',
@@ -589,6 +672,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6062551/',
     summary: 'This research shows that when cardiovascular progenitor cells are grown on the ISS, their development and function are altered, providing insight into how microgravity affects the cardiovascular system.',
     keyConcepts: ["cardiovascular progenitor cells", "International Space Station", "microgravity", "cell development", "space biology"],
+    publicationYear: 2018,
   },
   {
     id: 'PMC9832585',
@@ -596,6 +680,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9832585/',
     summary: 'This paper discusses the collaboration between different agencies to apply findings from radiation research on Earth to the challenges of space radiation.',
     keyConcepts: ["biomarkers", "medical countermeasures", "space radiation", "terrestrial radiation", "inter-agency collaboration"],
+    publicationYear: 2023,
   },
   {
     id: 'PMC7829349',
@@ -603,6 +688,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7829349/',
     summary: "This study analyzed strains of the bacterium Enterococcus faecalis from the ISS to assess their potential to cause disease.",
     keyConcepts: ["Enterococcus faecalis", "International Space Station", "microbiome", "pathogenicity", "genomics"],
+    publicationYear: 2021,
   },
   {
     id: 'PMC3570223',
@@ -610,6 +696,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3570223/',
     summary: 'This study investigated how macrophage cells differentiate in a laboratory setting during spaceflight to understand effects on the immune system.',
     keyConcepts: ["macrophage differentiation", "spaceflight", "in vitro", "immune system", "microgravity"],
+    publicationYear: 2013,
   },
   {
     id: 'PMC3457586',
@@ -617,6 +704,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3457586/',
     summary: 'This research identified key host cell genes associated with mitochondria that are critical during infection by the bacterium Ehrlichia chaffeensis.',
     keyConcepts: ["Ehrlichia chaffeensis", "mitochondria", "host-pathogen interaction", "gene expression", "infection"],
+    publicationYear: 2012,
   },
   {
     id: 'PMC3558598',
@@ -624,6 +712,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3558598/',
     summary: 'This study identified the specific locations within the cells of adult fruit flies where the bacterium Ehrlichia chaffeensis replicates.',
     keyConcepts: ["Ehrlichia chaffeensis", "Drosophila melanogaster", "replication sites", "intracellular bacteria", "host-pathogen interaction"],
+    publicationYear: 2013,
   },
   {
     id: 'PMC11046949',
@@ -631,6 +720,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11046949/',
     summary: 'This paper describes the creation and characterization of two new macrophage cell lines derived from pig monocytes, serving as a tool for studying the immune system.',
     keyConcepts: ["macrophage", "cell line", "porcine", "monocyte", "immunology"],
+    publicationYear: 2023,
   },
   {
     id: 'PMC3890248',
@@ -638,6 +728,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3890248/',
     summary: 'This article emphasizes the need for thorough ground-based experiments before conducting research on macrophage differentiation in space for better interpretation of results.',
     keyConcepts: ["macrophage differentiation", "spaceflight", "ground-based experiments", "research methodology", "immune system"],
+    publicationYear: 2014,
   },
   {
     id: 'PMC3868799',
@@ -645,6 +736,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3868799/',
     summary: "This research shows that leptin signaling in the bone marrow plays a key role in the inflammation of adipose tissue associated with obesity in male mice.",
     keyConcepts: ["leptin", "bone marrow", "obesity", "adipose tissue inflammation", "macrophages"],
+    publicationYear: 2013,
   },
   {
     id: 'PMC4960141',
@@ -652,6 +744,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4960141/',
     summary: 'This paper reports the creation of a new mouse macrophage cell line, DB-1, that lacks the leptin receptor, providing a tool for studying the role of leptin in immune cells.',
     keyConcepts: ["macrophage", "cell line", "leptin receptor", "DB-1", "immunology"],
+    publicationYear: 2016,
   },
   {
     id: 'PMC5736159',
@@ -659,6 +752,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5736159/',
     summary: 'This study validated the methods used to analyze the diversity of immunoglobulin genes in tissues from mice that were on the ISS, ensuring data accuracy.',
     keyConcepts: ["immunoglobulin repertoire", "spaceflight", "International Space Station", "method validation", "B-cells"],
+    publicationYear: 2017,
   },
   {
     id: 'PMC5761896',
@@ -666,6 +760,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5761896/',
     summary: "This paper describes using a powerful sequencing technique to characterize the full range of antibodies in a mouse that hasn't been exposed to a specific antigen.",
     keyConcepts: ["antibody repertoire", "high-throughput sequencing", "naive B-cells", "murine immunology", "immunogenetics"],
+    publicationYear: 2018,
   },
   {
     id: 'PMC5826609',
@@ -673,6 +768,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5826609/',
     summary: 'This study investigated how spaceflight affects the antibody repertoire in unimmunized mice, contributing to understanding the space environment\'s impact on the immune system.',
     keyConcepts: ["spaceflight", "immunoglobulin repertoire", "unimmunized mice", "immune system", "B-cells"],
+    publicationYear: 2018,
   },
   {
     id: 'PMC6366624',
@@ -680,6 +776,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6366624/',
     summary: 'This study compares two different methods for preparing samples for antibody repertoire sequencing in mice to determine the most accurate and efficient method.',
     keyConcepts: ["antibody repertoire", "sequencing methods", "PCR amplification", "murine immunology", "bioinformatics"],
+    publicationYear: 2019,
   },
   {
     id: 'PMC11929063',
@@ -687,6 +784,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11929063/',
     summary: 'This study examined how skeletal unloading affects the antibody response in mice vaccinated with tetanus toxoid and/or CpG.',
     keyConcepts: ["skeletal unloading", "antibody repertoire", "vaccination", "tetanus toxoid", "CpG"],
+    publicationYear: 2024,
   },
   {
     id: 'PMC11929063-2',
@@ -694,6 +792,7 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11929063/',
     summary: 'This study focuses on the effects of skeletal unloading on the antibody repertoire specifically within the bone marrow of vaccinated mice.',
     keyConcepts: ["skeletal unloading", "bone marrow", "antibody repertoire", "vaccination", "B-cells"],
+    publicationYear: 2024,
   },
   {
     id: 'PMC10996920',
@@ -701,5 +800,6 @@ export const publications: Publication[] = [
     link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10996920/',
     summary: 'This study analyzes how the combination of spaceflight and vaccination affects the diversity of antibodies in the immune system, crucial for ensuring vaccine effectiveness for astronauts.',
     keyConcepts: ["spaceflight", "vaccination", "antibody repertoire", "immune diversity", "astronaut health"],
+    publicationYear: 2024,
   },
 ];

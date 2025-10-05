@@ -8,9 +8,9 @@ import { KnowledgeGraph } from './knowledge-graph';
 import { GapAnalysisPanel } from './gap-analysis-panel';
 import PublicationDetailDialog from './publication-detail-dialog';
 import { Card, CardContent } from '../ui/card';
-import { ScrollArea } from '../ui/scroll-area';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '../ui/sheet';
 import { useState } from 'react';
+import ResearchTimeline from './research-timeline';
 
 function DashboardView() {
   const { userRole, isFiltered } = useDashboard();
@@ -28,7 +28,7 @@ function DashboardView() {
         {/* Mobile Filter Panel in a Sheet */}
         <Sheet open={isFilterPanelOpen} onOpenChange={setIsFilterPanelOpen}>
           <SheetContent side="left" className="lg:hidden p-0 w-80">
-             <SheetHeader className="sr-only">
+            <SheetHeader className="sr-only">
               <SheetTitle>Filter and Explore Concepts</SheetTitle>
             </SheetHeader>
             <FilterPanel />
@@ -38,14 +38,13 @@ function DashboardView() {
         {/* Main Content */}
         <main className="flex-1 overflow-y-auto">
           <div className="space-y-6 p-4 lg:p-8 pt-6">
-
             {(userRole === 'Scientist' || userRole === 'Mission Architect') && (
-              <>
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
                 <KnowledgeGraph />
                 <div className="rounded-lg border bg-card text-card-foreground shadow-sm">
                   <GapAnalysisPanel />
                 </div>
-              </>
+              </div>
             )}
 
             {userRole === 'Manager' && (
@@ -57,8 +56,8 @@ function DashboardView() {
               </Card>
             )}
 
+            <ResearchTimeline />
             <PublicationList title={isFiltered ? 'Filtered Publications' : 'All Publications'} />
-
           </div>
         </main>
       </div>

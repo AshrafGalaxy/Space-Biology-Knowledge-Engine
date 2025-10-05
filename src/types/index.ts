@@ -4,6 +4,7 @@ export type Publication = {
   link: string;
   summary: string;
   keyConcepts: string[];
+  publicationYear: number;
 };
 
 export type UserRole = 'Scientist' | 'Manager' | 'Mission Architect';
