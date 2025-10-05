@@ -192,9 +192,9 @@ export function KnowledgeGraph() {
     };
 
     const applyForces = () => {
-        const repulsionConstant = 1000;
+        const repulsionConstant = 800; // Reduced from 1000
         const springConstant = 0.05;
-        const centeringConstant = 0.00005;
+        const centeringConstant = 0.00004; // Reduced from 0.00005
 
         // Repulsion force between all nodes
         for (let i = 0; i < nodes.length; i++) {
@@ -286,7 +286,7 @@ export function KnowledgeGraph() {
 
         applyForces();
         nodes.forEach(node => {
-            node.update(dt, 0.95); // 0.95 is damping
+            node.update(dt, 0.92); // Increased damping from 0.95
             enforceBoundaries(node);
         });
 
@@ -397,8 +397,8 @@ export function KnowledgeGraph() {
             Knowledge Graph
         </CardTitle>
       </CardHeader>
-      <CardContent ref={containerRef} className="flex-1 relative w-full h-full min-h-[400px] aspect-video">
-        <canvas ref={mountRef} className="absolute top-0 left-0 w-full h-full" />
+      <CardContent ref={containerRef} className="flex-1 relative w-full h-full min-h-[400px] lg:min-h-[500px] xl:min-h-[600px] aspect-video">
+        <canvas ref={mountRef} className="absolute top-0 left-0 w-full h-full rounded-b-lg" />
         {nodes.length === 0 && (
           <div className="absolute inset-0 flex items-center justify-center text-muted-foreground bg-background/50 backdrop-blur-sm rounded-b-lg">
             <p>No publications found for the current filters.</p>
