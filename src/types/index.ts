@@ -9,6 +9,7 @@ export type Publication = {
 export type UserRole = 'Scientist' | 'Manager' | 'Mission Architect';
 
 export type GapAnalysisResult = {
-  knowledgeGaps: string;
-  conflictingFindings: string;
+  synthesis: string;
+  knowledgeGaps: string[];
+  conflictingFindings: string[];
 } | null;

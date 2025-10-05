@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { runGapAnalysis } from '@/app/actions';
 import { useTransition } from 'react';
-import { Lightbulb, AlertTriangle, Loader2 } from 'lucide-react';
+import { Lightbulb, AlertTriangle, Loader2, WandSparkles } from 'lucide-react';
 import { ScrollArea } from '../ui/scroll-area';
 import { Separator } from '../ui/separator';
 
@@ -14,9 +14,8 @@ export function GapAnalysisPanel() {
   const [isPending, startTransition] = useTransition();
 
   const handleAnalysis = () => {
-    const summaries = filteredPublications.map(p => p.summary);
     startTransition(async () => {
-      const result = await runGapAnalysis(summaries);
+      const result = await runGapAnalysis(filteredPublications);
       setAnalysisResult(result);
     });
   };
@@ -26,7 +25,10 @@ export function GapAnalysisPanel() {
   return (
     <aside className="w-full md:w-96 lg:w-[450px] border-l flex flex-col bg-card/50">
       <div className="p-4 border-b">
-        <h2 className="font-headline text-lg font-semibold">AI Gap Analysis</h2>
+        <h2 className="font-headline text-lg font-semibold flex items-center gap-2">
+            <WandSparkles className="w-5 h-5 text-primary" />
+            AI Gap Analysis
+        </h2>
       </div>
       <div className="flex-1 p-4 flex flex-col gap-4 min-h-0">
         <p className="text-sm text-muted-foreground">
@@ -50,9 +52,22 @@ export function GapAnalysisPanel() {
         
         <ScrollArea className="flex-1">
           <div className="space-y-6 pr-2">
+            {isPending && !analysisResult && (
+                 <div className="text-center text-muted-foreground py-10">
+                    <Loader2 className="mx-auto h-8 w-8 animate-spin" />
+                    <p className="mt-2">AI is analyzing the data...</p>
+              </div>
+            )}
             {analysisResult ? (
               <>
-                <Card>
+                 <div className="space-y-2">
+                  <h3 className="font-semibold text-foreground">Synthesis</h3>
+                  <p className="text-sm text-muted-foreground whitespace-pre-wrap">{analysisResult.synthesis}</p>
+                </div>
+
+                <Separator/>
+
+                <Card className='bg-background/40'>
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2 text-base font-semibold">
                       <Lightbulb className="w-5 h-5 text-accent" />
@@ -60,10 +75,15 @@ export function GapAnalysisPanel() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-muted-foreground whitespace-pre-wrap">{analysisResult.knowledgeGaps}</p>
+                    {analysisResult.knowledgeGaps.length > 0 ? (
+                        <ul className="space-y-3 text-sm text-muted-foreground list-disc pl-4">
+                            {analysisResult.knowledgeGaps.map((gap, i) => <li key={`gap-${i}`}>{gap}</li>)}
+                        </ul>
+                    ) : <p className="text-sm text-muted-foreground">No specific knowledge gaps identified.</p>}
                   </CardContent>
                 </Card>
-                <Card>
+
+                <Card className='bg-background/40'>
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2 text-base font-semibold">
                       <AlertTriangle className="w-5 h-5 text-destructive" />
@@ -71,14 +91,20 @@ export function GapAnalysisPanel() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-muted-foreground whitespace-pre-wrap">{analysisResult.conflictingFindings}</p>
+                     {analysisResult.conflictingFindings.length > 0 ? (
+                        <ul className="space-y-3 text-sm text-muted-foreground list-disc pl-4">
+                            {analysisResult.conflictingFindings.map((conflict, i) => <li key={`conflict-${i}`}>{conflict}</li>)}
+                        </ul>
+                    ) : <p className="text-sm text-muted-foreground">No conflicting findings identified.</p>}
                   </CardContent>
                 </Card>
               </>
             ) : (
-              <div className="text-center text-muted-foreground py-10">
-                <p>Analysis results will appear here.</p>
-              </div>
+                !isPending && (
+                    <div className="text-center text-muted-foreground py-10">
+                        <p>Analysis results will appear here.</p>
+                    </div>
+                )
             )}
           </div>
         </ScrollArea>
