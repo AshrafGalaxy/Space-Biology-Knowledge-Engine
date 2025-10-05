@@ -9,14 +9,29 @@ import { GapAnalysisPanel } from './gap-analysis-panel';
 import PublicationDetailDialog from './publication-detail-dialog';
 import { Card, CardContent } from '../ui/card';
 import { ScrollArea } from '../ui/scroll-area';
+import { Sheet, SheetContent } from '../ui/sheet';
+import { useState } from 'react';
 
 function DashboardView() {
   const { userRole, isFiltered } = useDashboard();
+  const [isFilterPanelOpen, setIsFilterPanelOpen] = useState(false);
 
-  const roleBasedLayout = () => {
-    return (
-      <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
-        <FilterPanel />
+  return (
+    <div className="flex flex-col h-screen bg-background font-body">
+      <Header onFilterToggle={() => setIsFilterPanelOpen(true)} />
+      <div className="flex-1 flex flex-row overflow-hidden">
+        {/* Desktop Filter Panel */}
+        <div className="hidden lg:block">
+          <FilterPanel />
+        </div>
+
+        {/* Mobile Filter Panel in a Sheet */}
+        <Sheet open={isFilterPanelOpen} onOpenChange={setIsFilterPanelOpen}>
+          <SheetContent side="left" className="lg:hidden p-0 w-80">
+            <FilterPanel />
+          </SheetContent>
+        </Sheet>
+        
         <main className="flex-1 flex flex-col min-w-0">
           <ScrollArea className="h-full">
             <div className="flex-1 space-y-6 p-4 lg:p-8 pt-6">
@@ -41,24 +56,16 @@ function DashboardView() {
           </ScrollArea>
         </main>
       </div>
-    );
-  };
-
-  return (
-    <div className="flex flex-col h-screen bg-background font-body">
-      <Header />
-      {roleBasedLayout()}
       <PublicationDetailDialog />
     </div>
   );
 }
 
-
 export function DashboardLayout({ 
   publications,
   concepts 
 }: { 
-  publications: any[], // Using any[] because the AI-generated concepts are added dynamically
+  publications: any[],
   concepts: string[],
 }) {
   return (
