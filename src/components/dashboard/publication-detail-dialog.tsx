@@ -11,7 +11,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '../ui/scroll-area';
 import { Button } from '../ui/button';
-import { ExternalLink, Users, Calendar, Book } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 
 export default function PublicationDetailDialog() {
   const { selectedPublication, setSelectedPublicationId } = useDashboard();
@@ -30,11 +30,6 @@ export default function PublicationDetailDialog() {
         <DialogHeader>
           <DialogTitle className="font-headline text-2xl pr-8">{selectedPublication.title}</DialogTitle>
           <DialogDescription className="space-y-2 pt-2">
-             <div className="flex items-center text-xs text-muted-foreground gap-4">
-                <span className="flex items-center gap-1.5"><Users size={14} /> {selectedPublication.authors.join(', ')}</span>
-                <span className="flex items-center gap-1.5"><Calendar size={14} /> {selectedPublication.publicationDate}</span>
-                <span className="flex items-center gap-1.5"><Book size={14} /> {selectedPublication.journal}</span>
-             </div>
           </DialogDescription>
         </DialogHeader>
         <ScrollArea className="flex-grow my-4">
@@ -56,7 +51,7 @@ export default function PublicationDetailDialog() {
         </ScrollArea>
         <div className="mt-auto flex-shrink-0 pt-4">
              <a
-                href={`https://doi.org/${selectedPublication.doi}`}
+                href={selectedPublication.link}
                 target="_blank"
                 rel="noopener noreferrer"
               >

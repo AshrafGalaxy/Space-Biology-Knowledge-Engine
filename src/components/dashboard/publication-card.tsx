@@ -10,8 +10,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { useDashboard } from '@/hooks/use-dashboard.tsx';
-import { Button } from '../ui/button';
+import { useDashboard } from '@/hooks/use-dashboard';
 import { ArrowRight } from 'lucide-react';
 
 interface PublicationCardProps {
@@ -30,9 +29,6 @@ export function PublicationCard({ publication }: PublicationCardProps) {
         <CardTitle className="text-base font-headline leading-snug group-hover:text-primary transition-colors">
           {publication.title}
         </CardTitle>
-        <CardDescription className="text-xs">
-          {publication.authors.slice(0,2).join(', ')}{publication.authors.length > 2 ? ' et al.' : ''} &bull; {publication.publicationDate}
-        </CardDescription>
       </CardHeader>
       <CardContent className="flex-grow">
         <p className="text-sm text-muted-foreground line-clamp-3">
