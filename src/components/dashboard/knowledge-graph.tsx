@@ -236,11 +236,8 @@ export function KnowledgeGraph() {
 
 
     const draw = () => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
         
-        ctx.save();
-        ctx.scale(dpr,dpr);
-
         // Draw links
         links.forEach(link => {
             const { source, target } = link;
@@ -255,8 +252,6 @@ export function KnowledgeGraph() {
 
         // Draw nodes
         nodes.forEach(node => node.draw(ctx, colors));
-        
-        ctx.restore();
     };
 
     let lastTime = 0;
