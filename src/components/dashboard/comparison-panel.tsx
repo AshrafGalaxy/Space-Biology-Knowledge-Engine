@@ -55,7 +55,7 @@ export default function ComparisonPanel() {
                 </span>
             </div>
             
-            <div className="hidden md:flex items-center gap-2 flex-wrap max-w-md overflow-hidden">
+            <div className="hidden lg:flex items-center gap-2 flex-wrap max-w-lg overflow-hidden">
                 {selectedPublications.slice(0, 3).map(p => p && (
                     <span key={p.id} className="text-xs text-muted-foreground truncate">{p.title}</span>
                 ))}
@@ -86,51 +86,53 @@ export default function ComparisonPanel() {
     </AnimatePresence>
 
     <Dialog open={isDialogOpen} onOpenChange={handleDialogClose}>
-        <DialogContent className="max-w-3xl h-[80vh] flex flex-col">
+        <DialogContent className="max-w-4xl h-[90vh] flex flex-col">
             <DialogHeader>
                 <DialogTitle className="font-headline text-2xl pr-8">Comparison Analysis</DialogTitle>
                 <DialogDescription>
                     AI-generated consensus and contradiction points for the {selectedPublications.length} selected publications.
                 </DialogDescription>
             </DialogHeader>
-            <ScrollArea className="flex-grow my-4 -mr-6">
-                <div className="pr-6 space-y-8">
-                    {analysisResult ? (
-                        <>
-                        <div>
-                            <h3 className="font-semibold text-lg flex items-center gap-2 mb-3">
-                                <CheckCheck className="h-5 w-5 text-green-500" />
-                                Points of Consensus
-                            </h3>
+            <div className="flex-grow my-4 -mx-6 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-0 overflow-hidden">
+              {analysisResult ? (
+                  <>
+                    <div className="px-6 flex flex-col h-full">
+                        <h3 className="font-semibold text-lg flex items-center gap-2 mb-3 flex-shrink-0">
+                            <CheckCheck className="h-5 w-5 text-green-500" />
+                            Points of Consensus
+                        </h3>
+                        <ScrollArea className="flex-grow pr-4 -mr-4">
                             {analysisResult.consensus.length > 0 ? (
                                 <ul className="space-y-3 text-sm text-muted-foreground list-disc pl-5">
                                     {analysisResult.consensus.map((item, i) => <li key={`con-${i}`}>{item}</li>)}
                                 </ul>
                             ) : <p className="text-sm text-muted-foreground px-4 py-2">No significant consensus identified.</p>}
-                        </div>
+                        </ScrollArea>
+                    </div>
 
-                        <Separator/>
-
-                        <div>
-                            <h3 className="font-semibold text-lg flex items-center gap-2 mb-3">
-                                <AlertTriangle className="h-5 w-5 text-amber-500" />
-                                Points of Contradiction
-                            </h3>
+                    <div className="md:border-l px-6 flex flex-col h-full">
+                         <h3 className="font-semibold text-lg flex items-center gap-2 mb-3 flex-shrink-0">
+                            <AlertTriangle className="h-5 w-5 text-amber-500" />
+                            Points of Contradiction
+                        </h3>
+                        <ScrollArea className="flex-grow pr-4 -mr-4">
                             {analysisResult.contradictions.length > 0 ? (
                                 <ul className="space-y-3 text-sm text-muted-foreground list-disc pl-5">
                                     {analysisResult.contradictions.map((item, i) => <li key={`con-${i}`}>{item}</li>)}
                                 </ul>
                             ) : <p className="text-sm text-muted-foreground px-4 py-2">No significant contradictions identified.</p>}
-                        </div>
-                        </>
-                    ): (
-                        <div className="text-center text-muted-foreground py-10">
-                            <Loader2 className="mx-auto h-8 w-8 animate-spin" />
-                            <p className="mt-2">AI is analyzing the publications...</p>
-                        </div>
-                    )}
-                </div>
-            </ScrollArea>
+                        </ScrollArea>
+                    </div>
+                  </>
+              ): (
+                  <div className="col-span-full text-center text-muted-foreground flex items-center justify-center h-full">
+                      <div className="flex flex-col items-center gap-2">
+                        <Loader2 className="h-8 w-8 animate-spin" />
+                        <p>AI is analyzing the publications...</p>
+                      </div>
+                  </div>
+              )}
+            </div>
         </DialogContent>
     </Dialog>
     </>
