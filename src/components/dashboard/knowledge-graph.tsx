@@ -35,11 +35,11 @@ class Node {
   isDragged = false;
   isActive = false;
 
-  constructor(name: string, radius: number, isActive: boolean) {
+  constructor(name: string, radius: number, isActive: boolean, canvasWidth: number, canvasHeight: number) {
     this.name = name;
     this.radius = radius;
     this.mass = radius * radius;
-    this.pos = new Vec2(Math.random() * 200 - 100, Math.random() * 200 - 100);
+    this.pos = new Vec2(Math.random() * canvasWidth, Math.random() * canvasHeight);
     this.vel = new Vec2();
     this.force = new Vec2();
     this.isActive = isActive;
@@ -83,61 +83,69 @@ export function KnowledgeGraph() {
   const mountRef = useRef<HTMLCanvasElement>(null);
   const { toggleConcept, activeConcepts, filteredPublications } = useDashboard();
   const [synths, setSynths] = useState<{ hover: Tone.Synth, click: Tone.MembraneSynth } | null>(null);
+  const [nodes, setNodes] = useState<Node[]>([]);
+  const [links, setLinks] = useState<{ source: Node, target: Node, strength: number }[]>([]);
 
-  const { nodes: graphNodes, links } = React.useMemo(() => {
-    const conceptCounts: Record<string, number> = {};
-    const cooccurrence: Record<string, Record<string, number>> = {};
-    
-    filteredPublications.forEach(pub => {
-      pub.keyConcepts.forEach(c1 => {
-        conceptCounts[c1] = (conceptCounts[c1] || 0) + 1;
-        cooccurrence[c1] = cooccurrence[c1] || {};
-        pub.keyConcepts.forEach(c2 => {
-          if (c1 !== c2) {
-            cooccurrence[c1][c2] = (cooccurrence[c1][c2] || 0) + 1;
-          }
-        });
-      });
-    });
-
-    const nodes = Object.entries(conceptCounts).map(([name, count]) => {
-      const isActive = activeConcepts.has(name);
-      const radius = 8 + Math.log2(count + 1) * (isActive ? 4 : 2);
-      return new Node(name, radius, isActive);
-    });
-
-    const newLinks: { source: Node, target: Node, strength: number }[] = [];
-    const minOccurrenceForLink = 2;
-
-    Object.keys(cooccurrence).forEach(c1 => {
-      Object.keys(cooccurrence[c1]).forEach(c2 => {
-        if (c1 < c2 && cooccurrence[c1][c2] >= minOccurrenceForLink) {
-          const source = nodes.find(n => n.name === c1);
-          const target = nodes.find(n => n.name === c2);
-          if (source && target) {
-            newLinks.push({ source, target, strength: cooccurrence[c1][c2] });
-          }
-        }
-      });
-    });
-
-    return { nodes, links: newLinks };
-  }, [filteredPublications, activeConcepts]);
-  
   useEffect(() => {
-    // Initialize synths on client
-    if(!synths) {
+    // Initialize synths on client after mount
+    if(!synths && typeof window !== 'undefined') {
       try {
         const hoverSynth = new Tone.Synth({ oscillator: { type: 'sine' }, envelope: { attack: 0.005, decay: 0.1, sustain: 0.3, release: 1 } }).toDestination();
         const clickSynth = new Tone.MembraneSynth().toDestination();
         setSynths({ hover: hoverSynth, click: clickSynth });
       } catch (e) {
-        console.error("Failed to initialize Tone.js synths", e)
+        console.error("Failed to initialize Tone.js synths. Audio will be disabled.", e)
       }
     }
+  }, [synths]);
+
+  useEffect(() => {
+      const canvas = mountRef.current;
+      if (!canvas) return;
+
+      const conceptCounts: Record<string, number> = {};
+      const cooccurrence: Record<string, Record<string, number>> = {};
+      
+      filteredPublications.forEach(pub => {
+        (pub.keyConcepts || []).forEach(c1 => {
+          conceptCounts[c1] = (conceptCounts[c1] || 0) + 1;
+          cooccurrence[c1] = cooccurrence[c1] || {};
+          (pub.keyConcepts || []).forEach(c2 => {
+            if (c1 !== c2) {
+              cooccurrence[c1][c2] = (cooccurrence[c1][c2] || 0) + 1;
+            }
+          });
+        });
+      });
+
+      const newNodes = Object.entries(conceptCounts).map(([name, count]) => {
+        const isActive = activeConcepts.has(name);
+        const radius = 8 + Math.log2(count + 1) * (isActive ? 4 : 2);
+        return new Node(name, radius, isActive, canvas.width, canvas.height);
+      });
+
+      const newLinks: { source: Node, target: Node, strength: number }[] = [];
+      const minOccurrenceForLink = 2;
+
+      Object.keys(cooccurrence).forEach(c1 => {
+        Object.keys(cooccurrence[c1]).forEach(c2 => {
+          if (c1 < c2 && cooccurrence[c1][c2] >= minOccurrenceForLink) {
+            const source = newNodes.find(n => n.name === c1);
+            const target = newNodes.find(n => n.name === c2);
+            if (source && target) {
+              newLinks.push({ source, target, strength: cooccurrence[c1][c2] });
+            }
+          }
+        });
+      });
+      setNodes(newNodes);
+      setLinks(newLinks);
+
+  }, [filteredPublications, activeConcepts]);
   
+  useEffect(() => {
     const canvas = mountRef.current;
-    if (!canvas || graphNodes.length === 0) return;
+    if (!canvas || nodes.length === 0 || !mountRef.current) return;
     
     const ctx = canvas.getContext('2d')!;
     let animationFrameId: number;
@@ -146,10 +154,15 @@ export function KnowledgeGraph() {
     
     const dpr = window.devicePixelRatio || 1;
     let rect = canvas.getBoundingClientRect();
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
-    ctx.scale(dpr, dpr);
     
+    const resizeCanvas = () => {
+        rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+    };
+    resizeCanvas();
+
     const colors = {
         active: 'hsl(217.2 91.2% 59.8%)', // primary
         inactive: '#334155', // slate-700
@@ -163,25 +176,16 @@ export function KnowledgeGraph() {
 
     const applyForces = () => {
         // Repulsion force between all nodes
-        for (let i = 0; i < graphNodes.length; i++) {
-            for (let j = i + 1; j < graphNodes.length; j++) {
-                const nodeA = graphNodes[i];
-                const nodeB = graphNodes[j];
+        for (let i = 0; i < nodes.length; i++) {
+            for (let j = i + 1; j < nodes.length; j++) {
+                const nodeA = nodes[i];
+                const nodeB = nodes[j];
                 const delta = nodeB.pos.subtract(nodeA.pos);
                 let distance = delta.magnitude;
-                if (distance === 0) {
-                  distance = 0.1;
-                }
-                const minDistance = nodeA.radius + nodeB.radius + 20;
+                if (distance === 0) distance = 0.1;
                 
-                const forceMagnitude = -5000 / (distance * distance); // Coulomb's law
+                const forceMagnitude = -4000 / (distance * distance); // Coulomb's law
                 const force = delta.normalized.multiply(forceMagnitude);
-
-                if (distance < minDistance) {
-                    const overlapForce = delta.normalized.multiply((minDistance - distance) * -0.1);
-                    nodeA.force = nodeA.force.add(overlapForce.multiply(-1));
-                    nodeB.force = nodeB.force.add(overlapForce);
-                }
 
                 nodeA.force = nodeA.force.add(force);
                 nodeB.force = nodeB.force.subtract(force);
@@ -193,9 +197,10 @@ export function KnowledgeGraph() {
             const { source, target, strength } = link;
             const delta = target.pos.subtract(source.pos);
             const distance = delta.magnitude;
-            const idealDistance = 100 + (source.radius + target.radius);
+            if (distance === 0) return;
+            const idealDistance = 120;
             const displacement = distance - idealDistance;
-            const forceMagnitude = displacement * 0.02 * Math.log(strength + 1); // Hooke's Law
+            const forceMagnitude = displacement * 0.05 * Math.log(strength + 1); // Hooke's Law
             const force = delta.normalized.multiply(forceMagnitude);
             
             source.force = source.force.add(force);
@@ -203,15 +208,38 @@ export function KnowledgeGraph() {
         });
 
         // Centering force
-        graphNodes.forEach(node => {
+        nodes.forEach(node => {
             const center = new Vec2(rect.width / 2, rect.height / 2);
             const toCenter = center.subtract(node.pos);
-            node.force = node.force.add(toCenter.multiply(node.mass * 0.0001));
+            node.force = node.force.add(toCenter.multiply(node.mass * 0.00005));
         });
     };
 
+    const enforceBoundaries = (node: Node) => {
+        if (node.pos.x - node.radius < 0) {
+            node.pos.x = node.radius;
+            node.vel.x *= -0.6; // Bounce
+        }
+        if (node.pos.x + node.radius > rect.width) {
+            node.pos.x = rect.width - node.radius;
+            node.vel.x *= -0.6;
+        }
+        if (node.pos.y - node.radius < 0) {
+            node.pos.y = node.radius;
+            node.vel.y *= -0.6;
+        }
+        if (node.pos.y + node.radius > rect.height) {
+            node.pos.y = rect.height - node.radius;
+            node.vel.y *= -0.6;
+        }
+    };
+
+
     const draw = () => {
-        ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        ctx.save();
+        ctx.scale(dpr,dpr);
 
         // Draw links
         links.forEach(link => {
@@ -226,7 +254,9 @@ export function KnowledgeGraph() {
         });
 
         // Draw nodes
-        graphNodes.forEach(node => node.draw(ctx, colors));
+        nodes.forEach(node => node.draw(ctx, colors));
+        
+        ctx.restore();
     };
 
     let lastTime = 0;
@@ -234,18 +264,18 @@ export function KnowledgeGraph() {
         const dt = (time - lastTime) / 1000 || 0.016;
         lastTime = time;
 
-        if (dt > 0.05) { // clamp delta time
-            lastTime = 0;
+        if (dt > 0.05) { // clamp delta time to prevent instability
             animationFrameId = requestAnimationFrame(animate);
             return;
         }
 
         applyForces();
-        graphNodes.forEach(node => node.update(dt, 0.95)); // damping
+        nodes.forEach(node => {
+            node.update(dt, 0.95);
+            enforceBoundaries(node);
+        });
 
-        ctx.save();
         draw();
-        ctx.restore();
 
         animationFrameId = requestAnimationFrame(animate);
     };
@@ -254,52 +284,56 @@ export function KnowledgeGraph() {
 
     const getMousePos = (e: MouseEvent): Vec2 => {
         const rect = canvas.getBoundingClientRect();
-        return new Vec2((e.clientX - rect.left), (e.clientY - rect.top));
+        return new Vec2(e.clientX - rect.left, e.clientY - rect.top);
     };
+    
+    let dragStartTime = 0;
 
     const handleMouseDown = (e: MouseEvent) => {
+        e.preventDefault();
         const mousePos = getMousePos(e);
-        const node = [...graphNodes].reverse().find(n => mousePos.subtract(n.pos).magnitude < n.radius);
+        const node = [...nodes].reverse().find(n => mousePos.subtract(n.pos).magnitude < n.radius + 5);
         if (node) {
             draggedNode = node;
             node.isDragged = true;
+            dragStartTime = Date.now();
             canvas.style.cursor = 'grabbing';
         }
     };
     
     const handleMouseMove = (e: MouseEvent) => {
+        e.preventDefault();
         const mousePos = getMousePos(e);
         if (draggedNode) {
             draggedNode.pos = mousePos;
         } else {
-            const node = [...graphNodes].reverse().find(n => mousePos.subtract(n.pos).magnitude < n.radius);
+            const node = [...nodes].reverse().find(n => mousePos.subtract(n.pos).magnitude < n.radius + 5);
             if (node !== hoveredNode) {
                 if(hoveredNode) hoveredNode.isHovered = false;
                 hoveredNode = node || null;
                 if(hoveredNode) {
                     hoveredNode.isHovered = true;
-                    synths?.hover.triggerAttackRelease('C5', '8n');
+                    if(synths) synths.hover.triggerAttackRelease('C5', '8n');
                 }
             }
             canvas.style.cursor = node ? 'pointer' : 'default';
         }
     };
     
-    let lastClickTime = 0;
     const handleMouseUp = (e: MouseEvent) => {
-        const clickTime = Date.now();
-        if (draggedNode && hoveredNode === draggedNode) {
-            // Only fire click if not a drag (or very short drag)
-            if (clickTime - lastClickTime < 500) {
-                 synths?.click.triggerAttackRelease('C3', '8n');
-                 toggleConcept(draggedNode.name);
-            }
+        e.preventDefault();
+        const dragDuration = Date.now() - dragStartTime;
+
+        if (draggedNode && dragDuration < 200) { // It's a click, not a drag
+            if(synths) synths.click.triggerAttackRelease('C3', '8n');
+            toggleConcept(draggedNode.name);
         }
+
         if (draggedNode) {
             draggedNode.isDragged = false;
+            draggedNode = null;
         }
-        draggedNode = null;
-        lastClickTime = clickTime;
+        canvas.style.cursor = hoveredNode ? 'pointer' : 'default';
     };
     
     const handleMouseLeave = () => {
@@ -307,32 +341,29 @@ export function KnowledgeGraph() {
             hoveredNode.isHovered = false;
             hoveredNode = null;
         }
-        draggedNode = null;
+        if (draggedNode) {
+            draggedNode.isDragged = false;
+            draggedNode = null;
+        }
     };
 
-    const handleResize = () => {
-      if (!canvas) return;
-      rect = canvas.getBoundingClientRect();
-      canvas.width = rect.width * dpr;
-      canvas.height = rect.height * dpr;
-      ctx.scale(dpr, dpr);
-    };
-
+    window.addEventListener('resize', resizeCanvas);
     canvas.addEventListener('mousedown', handleMouseDown);
     canvas.addEventListener('mousemove', handleMouseMove);
     canvas.addEventListener('mouseup', handleMouseUp);
     canvas.addEventListener('mouseleave', handleMouseLeave);
-    window.addEventListener('resize', handleResize);
 
     return () => {
         cancelAnimationFrame(animationFrameId);
-        canvas.removeEventListener('mousedown', handleMouseDown);
-        canvas.removeEventListener('mousemove', handleMouseMove);
-        canvas.removeEventListener('mouseup', handleMouseUp);
-        canvas.removeEventListener('mouseleave', handleMouseLeave);
-        window.removeEventListener('resize', handleResize);
+        window.removeEventListener('resize', resizeCanvas);
+        if (canvas) {
+            canvas.removeEventListener('mousedown', handleMouseDown);
+            canvas.removeEventListener('mousemove', handleMouseMove);
+            canvas.removeEventListener('mouseup', handleMouseUp);
+            canvas.removeEventListener('mouseleave', handleMouseLeave);
+        }
     };
-}, [graphNodes, links, activeConcepts, synths, toggleConcept]);
+}, [nodes, links, activeConcepts, synths, toggleConcept]);
 
   return (
     <Card className="h-96 min-h-96 flex flex-col bg-muted/20">
@@ -344,7 +375,7 @@ export function KnowledgeGraph() {
       </CardHeader>
       <CardContent className="flex-1 -mt-4 relative">
         <canvas ref={mountRef} className="w-full h-full" />
-        {graphNodes.length === 0 && (
+        {nodes.length === 0 && (
           <div className="absolute inset-0 flex items-center justify-center text-muted-foreground bg-background/50">
             <p>No publications found for the current filters.</p>
           </div>
