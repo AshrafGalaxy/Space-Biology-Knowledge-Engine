@@ -2,12 +2,17 @@
 
 import { useDashboard } from '@/hooks/use-dashboard';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { runGapAnalysis } from '@/app/actions';
 import { useTransition } from 'react';
 import { Lightbulb, AlertTriangle, Loader2, WandSparkles } from 'lucide-react';
 import { ScrollArea } from '../ui/scroll-area';
 import { Separator } from '../ui/separator';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
 
 export function GapAnalysisPanel() {
   const { filteredPublications, analysisResult, setAnalysisResult, userRole } = useDashboard();
@@ -51,7 +56,7 @@ export function GapAnalysisPanel() {
         <Separator />
         
         <ScrollArea className="flex-1">
-          <div className="space-y-6 pr-2">
+          <div className="space-y-4 pr-2">
             {isPending && !analysisResult && (
                  <div className="text-center text-muted-foreground py-10">
                     <Loader2 className="mx-auto h-8 w-8 animate-spin" />
@@ -67,37 +72,38 @@ export function GapAnalysisPanel() {
 
                 <Separator/>
 
-                <Card className='bg-background/40'>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2 text-base font-semibold">
-                      <Lightbulb className="w-5 h-5 text-accent" />
-                      Knowledge Gaps
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    {analysisResult.knowledgeGaps.length > 0 ? (
-                        <ul className="space-y-3 text-sm text-muted-foreground list-disc pl-4">
-                            {analysisResult.knowledgeGaps.map((gap, i) => <li key={`gap-${i}`}>{gap}</li>)}
-                        </ul>
-                    ) : <p className="text-sm text-muted-foreground">No specific knowledge gaps identified.</p>}
-                  </CardContent>
-                </Card>
-
-                <Card className='bg-background/40'>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2 text-base font-semibold">
-                      <AlertTriangle className="w-5 h-5 text-destructive" />
-                      Conflicting Findings
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                     {analysisResult.conflictingFindings.length > 0 ? (
-                        <ul className="space-y-3 text-sm text-muted-foreground list-disc pl-4">
-                            {analysisResult.conflictingFindings.map((conflict, i) => <li key={`conflict-${i}`}>{conflict}</li>)}
-                        </ul>
-                    ) : <p className="text-sm text-muted-foreground">No conflicting findings identified.</p>}
-                  </CardContent>
-                </Card>
+                <Accordion type="multiple" defaultValue={['gaps', 'conflicts']} className="w-full">
+                  <AccordionItem value="gaps">
+                    <AccordionTrigger>
+                        <div className="flex items-center gap-2 text-base font-semibold">
+                            <Lightbulb className="w-5 h-5 text-accent" />
+                            Knowledge Gaps ({analysisResult.knowledgeGaps.length})
+                        </div>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      {analysisResult.knowledgeGaps.length > 0 ? (
+                          <ul className="space-y-3 text-sm text-muted-foreground list-disc pl-5 mt-2">
+                              {analysisResult.knowledgeGaps.map((gap, i) => <li key={`gap-${i}`}>{gap}</li>)}
+                          </ul>
+                      ) : <p className="text-sm text-muted-foreground px-4 py-2">No specific knowledge gaps identified.</p>}
+                    </AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="conflicts">
+                    <AccordionTrigger>
+                        <div className="flex items-center gap-2 text-base font-semibold">
+                            <AlertTriangle className="w-5 h-5 text-destructive" />
+                            Conflicting Findings ({analysisResult.conflictingFindings.length})
+                        </div>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      {analysisResult.conflictingFindings.length > 0 ? (
+                          <ul className="space-y-3 text-sm text-muted-foreground list-disc pl-5 mt-2">
+                              {analysisResult.conflictingFindings.map((conflict, i) => <li key={`conflict-${i}`}>{conflict}</li>)}
+                          </ul>
+                      ) : <p className="text-sm text-muted-foreground px-4 py-2">No conflicting findings identified.</p>}
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
               </>
             ) : (
                 !isPending && (
