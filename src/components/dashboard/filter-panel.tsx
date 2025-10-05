@@ -6,22 +6,39 @@ import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
-import { Search, BrainCircuit, X } from 'lucide-react';
+import { Search, BrainCircuit, X, Calendar } from 'lucide-react';
 import { Badge } from '../ui/badge';
+import { Slider } from '../ui/slider';
 
 export function FilterPanel() {
-  const { concepts, activeConcepts, toggleConcept, searchTerm, setSearchTerm, clearFilters } = useDashboard();
+  const { 
+    concepts, 
+    activeConcepts, 
+    toggleConcept, 
+    searchTerm, 
+    setSearchTerm, 
+    clearFilters, 
+    yearRange,
+    setYearRange,
+    minYear,
+    maxYear,
+    isFiltered
+  } = useDashboard();
+
+  const handleSliderCommit = (newRange: number[]) => {
+    setYearRange([newRange[0], newRange[1]]);
+  };
 
   return (
     <aside className="w-full md:w-72 lg:w-80 border-r flex flex-col bg-background/30">
       <div className="p-4 border-b">
         <h2 className="font-headline text-lg font-semibold flex items-center gap-2">
           <BrainCircuit className="w-5 h-5 text-primary" />
-          Explore Concepts
+          Explore & Filter
         </h2>
       </div>
       
-      <div className="p-4 space-y-6">
+      <div className="p-4 space-y-6 flex-1">
         <div>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -33,6 +50,24 @@ export function FilterPanel() {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
+        </div>
+        
+        <div>
+            <div className="flex justify-between items-center mb-2">
+                <Label className="text-sm font-medium flex items-center gap-2">
+                  <Calendar className="w-4 h-4" />
+                  Publication Year
+                </Label>
+                 <Badge variant="secondary" className="font-normal">{yearRange[0]} - {yearRange[1]}</Badge>
+            </div>
+             <Slider
+                min={minYear}
+                max={maxYear}
+                step={1}
+                value={[yearRange[0], yearRange[1]]}
+                onValueChange={(newRange) => setYearRange([newRange[0], newRange[1]])}
+                className="w-full"
+            />
         </div>
 
         <div>
@@ -50,8 +85,12 @@ export function FilterPanel() {
                     id={concept}
                     checked={activeConcepts.has(concept)}
                     onCheckedChange={() => toggleConcept(concept)}
+                    disabled={!activeConcepts.has(concept) && activeConcepts.size >= 3}
                   />
-                  <Label htmlFor={concept} className="font-normal cursor-pointer text-sm leading-tight">
+                  <Label 
+                    htmlFor={concept} 
+                    className="font-normal cursor-pointer text-sm leading-tight peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
                     {concept}
                   </Label>
                 </div>
@@ -61,7 +100,7 @@ export function FilterPanel() {
         </div>
       </div>
        <div className="mt-auto p-4 border-t">
-        <Button onClick={clearFilters} variant="outline" className="w-full" disabled={!searchTerm && activeConcepts.size === 0}>
+        <Button onClick={clearFilters} variant="outline" className="w-full" disabled={!isFiltered}>
             <X className="mr-2 h-4 w-4" /> Clear All Filters
         </Button>
       </div>

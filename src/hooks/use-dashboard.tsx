@@ -2,8 +2,7 @@
 
 import { createContext, useContext, useState, useMemo, useEffect, useCallback } from 'react';
 import type { Publication, UserRole, GapAnalysisResult } from '@/types';
-import { AnimatePresence, motion } from 'framer-motion';
-
+import { useToast } from './use-toast';
 
 interface DashboardContextType {
   publications: Publication[];
@@ -27,6 +26,10 @@ interface DashboardContextType {
   toggleComparison: (id: string) => void;
   clearComparison: () => void;
   getPublicationById: (id: string) => Publication | undefined;
+  yearRange: [number, number];
+  setYearRange: (range: [number, number]) => void;
+  minYear: number;
+  maxYear: number;
 }
 
 const DashboardContext = createContext<DashboardContextType | undefined>(undefined);
@@ -35,11 +38,16 @@ export function DashboardProvider({
   children, 
   publications,
   concepts,
+  minYear,
+  maxYear,
 }: { 
   children: React.ReactNode,
   publications: Publication[],
   concepts: string[],
+  minYear: number,
+  maxYear: number,
 }) {
+  const { toast } = useToast();
   const [userRole, setUserRole] = useState<UserRole>('Scientist');
   const [activeConcepts, setActiveConcepts] = useState<Set<string>>(new Set());
   const [searchTerm, setSearchTerm] = useState('');
@@ -47,6 +55,7 @@ export function DashboardProvider({
   const [isLoadingAnalysis, setIsLoadingAnalysis] = useState(false);
   const [analysisResult, setAnalysisResult] = useState<GapAnalysisResult>(null);
   const [comparisonSet, setComparisonSet] = useState<Set<string>>(new Set());
+  const [yearRange, setYearRange] = useState<[number, number]>([minYear, maxYear]);
 
   const toggleConcept = (concept: string) => {
     setActiveConcepts(prev => {
@@ -54,6 +63,14 @@ export function DashboardProvider({
       if (newSet.has(concept)) {
         newSet.delete(concept);
       } else {
+        if (newSet.size >= 3) {
+          toast({
+            title: 'Concept Limit Reached',
+            description: 'You can select a maximum of 3 concepts at a time.',
+            variant: 'destructive',
+          });
+          return prev;
+        }
         newSet.add(concept);
       }
       return newSet;
@@ -77,17 +94,14 @@ export function DashboardProvider({
   const clearFilters = () => {
     setActiveConcepts(new Set());
     setSearchTerm('');
+    setYearRange([minYear, maxYear]);
   };
 
   const isFiltered = useMemo(() => {
-      return searchTerm.length > 0 || activeConcepts.size > 0;
-  }, [searchTerm, activeConcepts]);
+      return searchTerm.length > 0 || activeConcepts.size > 0 || yearRange[0] > minYear || yearRange[1] < maxYear;
+  }, [searchTerm, activeConcepts, yearRange, minYear, maxYear]);
 
   const filteredPublications = useMemo(() => {
-    if (!isFiltered) {
-        return publications;
-    }
-
     return publications.filter(p => {
       const searchMatch = searchTerm.length > 0 
         ? p.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -97,10 +111,12 @@ export function DashboardProvider({
       const conceptMatch = activeConcepts.size > 0 
         ? [...activeConcepts].every(concept => p.keyConcepts.includes(concept))
         : true;
+
+      const yearMatch = p.publicationYear >= yearRange[0] && p.publicationYear <= yearRange[1];
         
-      return searchMatch && conceptMatch;
+      return searchMatch && conceptMatch && yearMatch;
     });
-  }, [publications, searchTerm, activeConcepts, isFiltered]);
+  }, [publications, searchTerm, activeConcepts, yearRange]);
   
   const selectedPublication = useMemo(() => {
     return publications.find(p => p.id === selectedPublicationId) ?? null;
@@ -137,6 +153,10 @@ export function DashboardProvider({
     toggleComparison,
     clearComparison,
     getPublicationById,
+    yearRange,
+    setYearRange,
+    minYear,
+    maxYear,
   };
 
   return (

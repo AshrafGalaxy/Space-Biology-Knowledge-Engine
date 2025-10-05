@@ -11,6 +11,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from '../ui/sheet';
 import { useState } from 'react';
 import ResearchTimeline from './research-timeline';
 import ComparisonPanel from './comparison-panel';
+import { Card } from '../ui/card';
 
 function DashboardView() {
   const { userRole, isFiltered } = useDashboard();
@@ -39,12 +40,12 @@ function DashboardView() {
         <main className="flex-1 overflow-y-auto">
           <div className="space-y-6 p-4 lg:p-8 pt-6">
             {(userRole === 'Scientist' || userRole === 'Mission Architect') && (
-              <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-                <KnowledgeGraph />
-                <div className="rounded-lg border bg-card text-card-foreground shadow-sm">
-                  <GapAnalysisPanel />
+               <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                  <KnowledgeGraph />
+                  <Card>
+                    <GapAnalysisPanel />
+                  </Card>
                 </div>
-              </div>
             )}
 
             <ResearchTimeline />
@@ -60,13 +61,22 @@ function DashboardView() {
 
 export function DashboardLayout({ 
   publications,
-  concepts 
+  concepts,
+  minYear,
+  maxYear,
 }: { 
   publications: any[],
   concepts: string[],
+  minYear: number,
+  maxYear: number,
 }) {
   return (
-    <DashboardProvider publications={publications} concepts={concepts}>
+    <DashboardProvider 
+      publications={publications} 
+      concepts={concepts}
+      minYear={minYear}
+      maxYear={maxYear}
+    >
       <DashboardView />
     </DashboardProvider>
   );

@@ -8,5 +8,14 @@ export default async function DashboardPage() {
   // Extract all unique concepts for filtering UI
   const allConcepts = [...new Set(allPublications.flatMap(p => p.keyConcepts ?? []))].sort();
 
-  return <DashboardLayout publications={allPublications} concepts={allConcepts} />;
+  const publicationYears = allPublications.map(p => p.publicationYear);
+  const minYear = Math.min(...publicationYears);
+  const maxYear = Math.max(...publicationYears);
+
+  return <DashboardLayout 
+            publications={allPublications} 
+            concepts={allConcepts} 
+            minYear={minYear}
+            maxYear={maxYear}
+          />;
 }
