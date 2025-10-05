@@ -56,7 +56,7 @@ export function GapAnalysisPanel() {
       <Separator />
       
       <div className="flex-1 p-4 min-h-0">
-        <div className="space-y-4 pr-2 h-full">
+        <div className="space-y-4 pr-2 h-full overflow-y-auto">
           {isPending && !analysisResult && (
                <div className="text-center text-muted-foreground py-10">
                   <Loader2 className="mx-auto h-8 w-8 animate-spin" />

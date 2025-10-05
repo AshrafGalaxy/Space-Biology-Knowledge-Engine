@@ -8,3 +8,4 @@ import '@/ai/flows/summarize-publication.ts';
 import '@/ai/flows/compare-publications.ts';
 import '@/ai/flows/analyze-publication.ts';
 import '@/ai/flows/get-research-overview.ts';
+import '@/ai/flows/propose-research.ts';

@@ -20,3 +20,10 @@ export type PublicationAnalysis = {
   keyMethodologies: string[];
   potentialImpact: string;
 } | null;
+
+export type ResearchProposalAnalysis = {
+  supportingPublications: { id: string, title: string, reason: string }[];
+  contradictoryPublications: { id: string, title: string, reason: string }[];
+  noveltyStatement: string;
+  suggestedNextSteps: string[];
+} | null;

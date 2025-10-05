@@ -6,11 +6,10 @@ import { runResearchOverview } from '@/app/actions';
 import type { GetResearchOverviewOutput } from '@/ai/flows/get-research-overview';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Brain, Lightbulb, TrendingUp, AlertTriangle, Loader2 } from 'lucide-react';
-import { Badge } from '../ui/badge';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 
 export default function AiResearchSummary() {
-    const { publications } = useDashboard();
+    const { filteredPublications } = useDashboard();
     const [overview, setOverview] = useState<GetResearchOverviewOutput | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -21,11 +20,11 @@ export default function AiResearchSummary() {
             setError(null);
             try {
                 // Pass only title and summary to the action
-                const publicationSummaries = publications.map(({ title, summary }) => ({ title, summary }));
+                const publicationSummaries = filteredPublications.map(({ title, summary }) => ({ title, summary }));
                 const result = await runResearchOverview(publicationSummaries);
                 
                 // Check if the result indicates an error from the backend action
-                if(result.dominantThemes[0]?.theme === 'Error') {
+                if (result.dominantThemes[0]?.theme === 'Error') {
                     throw new Error(result.dominantThemes[0].description);
                 }
 
@@ -39,7 +38,7 @@ export default function AiResearchSummary() {
         };
 
         fetchOverview();
-    }, [publications]);
+    }, [filteredPublications]);
 
     if (isLoading) {
         return (

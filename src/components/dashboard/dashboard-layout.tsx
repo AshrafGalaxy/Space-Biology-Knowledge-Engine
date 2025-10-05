@@ -13,6 +13,7 @@ import ResearchTimeline from './research-timeline';
 import ComparisonPanel from './comparison-panel';
 import { Card } from '../ui/card';
 import AiResearchSummary from './ai-research-summary';
+import ResearchProposalPanel from './research-proposal-panel';
 
 function DashboardView() {
   const { userRole, isFiltered } = useDashboard();
@@ -47,9 +48,12 @@ function DashboardView() {
             {(userRole === 'Scientist' || userRole === 'Mission Architect') && (
                <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
                   <KnowledgeGraph />
-                  <Card>
-                    <GapAnalysisPanel />
-                  </Card>
+                  <div className="space-y-6">
+                    <Card>
+                      <GapAnalysisPanel />
+                    </Card>
+                    <ResearchProposalPanel />
+                  </div>
                 </div>
             )}
 

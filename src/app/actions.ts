@@ -8,6 +8,8 @@ import { analyzePublication } from '@/ai/flows/analyze-publication';
 import type { AnalyzePublicationOutput } from '@/ai/flows/analyze-publication';
 import { getResearchOverview } from '@/ai/flows/get-research-overview';
 import type { GetResearchOverviewOutput } from '@/ai/flows/get-research-overview';
+import { proposeResearch } from '@/ai/flows/propose-research';
+import type { ProposeResearchOutput, ProposeResearchInput } from '@/ai/flows/propose-research';
 import type { Publication } from '@/types';
 
 export async function runGapAnalysis(publications: Publication[]): Promise<IdentifyKnowledgeGapsOutput> {
@@ -77,7 +79,11 @@ export async function runPublicationAnalysis(publication: Publication): Promise<
 
 export async function runResearchOverview(publications: Pick<Publication, 'title' | 'summary'>[]): Promise<GetResearchOverviewOutput> {
     if (publications.length < 10) { // Arbitrary threshold for a meaningful overview
-        throw new Error("Not enough publication data to generate a meaningful overview.");
+        return {
+            dominantThemes: [{ theme: "Error", description: "Not enough publication data to generate a meaningful overview. Please broaden your filters to include at least 10 publications."}],
+            emergingTrends: [],
+            areasOfDebate: [],
+        };
     }
     
     try {
@@ -89,6 +95,29 @@ export async function runResearchOverview(publications: Pick<Publication, 'title
             dominantThemes: [{ theme: "Error", description: "Could not analyze dominant themes due to a server error."}],
             emergingTrends: [{ trend: "Error", description: "Could not analyze emerging trends due to a server error."}],
             areasOfDebate: [{ topic: "Error", description: "Could not analyze areas of debate due to a server error."}],
+        };
+    }
+}
+
+export async function runResearchProposal(input: ProposeResearchInput): Promise<ProposeResearchOutput> {
+    if (!input.researchIdea) {
+        throw new Error("A research idea is required.");
+    }
+    if (!input.publications || input.publications.length === 0) {
+        throw new Error("Publication context is required.");
+    }
+
+    try {
+        const result = await proposeResearch(input);
+        return result;
+    } catch (error) {
+        console.error("Error in research proposal action:", error);
+        // Return a structured error that the client can handle gracefully
+        return {
+            supportingPublications: [],
+            contradictoryPublications: [],
+            noveltyStatement: "An error occurred while analyzing the proposal.",
+            suggestedNextSteps: ["Could not generate next steps due to a server error."],
         };
     }
 }
