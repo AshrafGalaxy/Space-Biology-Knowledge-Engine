@@ -11,7 +11,7 @@ export default function AboutPage() {
         <div className="flex items-center gap-3">
           <Link href="/" className="flex items-center gap-3">
             <h1 className="font-headline text-xl md:text-2xl font-bold tracking-tighter text-foreground">
-              About the Dashboard
+              About SpaceBio Explorer
             </h1>
           </Link>
         </div>

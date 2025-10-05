@@ -3,7 +3,7 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: 'AI-Driven NASA Bioscience Dashboard',
+  title: 'SpaceBio Explorer',
   description: 'An AI-powered dashboard for exploring NASA bioscience publications.',
 };
 
