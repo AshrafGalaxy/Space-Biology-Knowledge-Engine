@@ -38,7 +38,6 @@ function DashboardView() {
         {/* Main Content */}
         <main className="flex-1 overflow-y-auto">
           <div className="space-y-6 p-4 lg:p-8 pt-6">
-            <PublicationList title={isFiltered ? 'Filtered Publications' : 'All Publications'} />
 
             {(userRole === 'Scientist' || userRole === 'Mission Architect') && (
               <>
@@ -57,6 +56,9 @@ function DashboardView() {
                 </CardContent>
               </Card>
             )}
+
+            <PublicationList title={isFiltered ? 'Filtered Publications' : 'All Publications'} />
+
           </div>
         </main>
       </div>
