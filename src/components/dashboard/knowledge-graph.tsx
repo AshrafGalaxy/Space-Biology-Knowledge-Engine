@@ -2,17 +2,16 @@
 import React, { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
 import * as Tone from 'tone';
-import { useDashboard } from '@/hooks/use-dashboard';
+import { useDashboard } from '@/hooks/use-dashboard.tsx';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { BrainCircuit } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export function KnowledgeGraph() {
   const mountRef = useRef<HTMLDivElement>(null);
-  const { concepts, toggleConcept, activeConcepts, filteredPublications } = useDashboard();
+  const { toggleConcept, activeConcepts, filteredPublications } = useDashboard();
   const [renderer, setRenderer] = useState<THREE.WebGLRenderer | null>(null);
 
-  // Derive nodes from currently filtered publications for a dynamic graph
   const graphNodes = React.useMemo(() => {
     const conceptCounts: Record<string, number> = {};
     filteredPublications.forEach(pub => {
@@ -26,14 +25,11 @@ export function KnowledgeGraph() {
   useEffect(() => {
     if (!mountRef.current || graphNodes.length === 0) return;
     if (renderer) {
-      // If we have a renderer, just update the scene, don't create a new one.
-      // For this simplified version, we'll recreate it. In a real app, you'd manage scene objects.
       mountRef.current.innerHTML = '';
     }
 
     const currentMount = mountRef.current;
     
-    // Scene setup
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, currentMount.clientWidth / currentMount.clientHeight, 0.1, 1000);
     camera.position.z = 15;
@@ -43,7 +39,6 @@ export function KnowledgeGraph() {
     currentMount.appendChild(newRenderer.domElement);
     setRenderer(newRenderer);
 
-    // Sound setup
     const synth = new Tone.Synth({
         oscillator: { type: 'sine' },
         envelope: { attack: 0.005, decay: 0.1, sustain: 0.3, release: 1 },
@@ -51,12 +46,14 @@ export function KnowledgeGraph() {
     
     const clickSynth = new Tone.MembraneSynth().toDestination();
 
-    // Create nodes
     const objects: THREE.Mesh[] = [];
     const textSprites: THREE.Sprite[] = [];
-
     const totalNodes = graphNodes.length;
-    const radius = Math.max(5, totalNodes * 0.5);
+    const radius = Math.max(6, totalNodes * 0.4);
+    
+    const activeColor = new THREE.Color("hsl(var(--primary))");
+    const inactiveColor = new THREE.Color(0x334155); // slate-700
+    const hoverColor = new THREE.Color(0xf59e0b); // amber-500
 
     graphNodes.forEach((node, i) => {
         const angle = (i / totalNodes) * Math.PI * 2;
@@ -64,45 +61,49 @@ export function KnowledgeGraph() {
         const y = radius * Math.sin(angle);
         
         const isActive = activeConcepts.has(node.name);
-        const geometry = new THREE.SphereGeometry(isActive ? 0.7 : 0.5, 32, 32);
-        const material = new THREE.MeshBasicMaterial({ color: isActive ? '#BE0AFF' : '#00305E' });
+        const sphereSize = isActive ? 0.7 : 0.5;
+        const geometry = new THREE.SphereGeometry(sphereSize, 32, 32);
+        const material = new THREE.MeshStandardMaterial({ 
+          color: isActive ? activeColor : inactiveColor,
+          metalness: 0.3,
+          roughness: 0.6,
+        });
         const sphere = new THREE.Mesh(geometry, material);
         sphere.position.set(x, y, 0);
-        sphere.userData = { name: node.name, type: 'node' };
+        sphere.userData = { name: node.name, type: 'node', baseSize: sphereSize, baseColor: new THREE.Color().copy(material.color) };
         scene.add(sphere);
         objects.push(sphere);
 
-        // Text label
         const canvas = document.createElement('canvas');
         const context = canvas.getContext('2d')!;
-        context.font = '24px Inter';
-        const metrics = context.measureText(node.name);
-        canvas.width = metrics.width + 20;
+        context.font = 'Bold 24px Inter';
+        canvas.width = context.measureText(node.name).width + 20;
         canvas.height = 34;
-        context.font = '24px Inter';
-        context.fillStyle = isActive ? '#BE0AFF' : '#FFFFFF';
+        context.font = 'Bold 24px Inter';
+        context.fillStyle = isActive ? `hsl(var(--primary-foreground))` : '#FFFFFF';
         context.fillText(node.name, 10, 24);
 
         const texture = new THREE.CanvasTexture(canvas);
-        const spriteMaterial = new THREE.SpriteMaterial({ map: texture });
+        const spriteMaterial = new THREE.SpriteMaterial({ map: texture, depthTest: false, depthWrite: false, sizeAttenuation: false });
         const sprite = new THREE.Sprite(spriteMaterial);
-        sprite.scale.set(canvas.width / 50, canvas.height / 50, 1);
-        sprite.position.set(x, y + (isActive ? 1.1 : 0.9), 0);
+        sprite.scale.set(canvas.width / 1500, canvas.height / 1500, 1);
+        sprite.position.set(x, y + (isActive ? 1.0 : 0.8), 0);
         scene.add(sprite);
         textSprites.push(sprite);
     });
+
+    // Lighting
+    scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    directionalLight.position.set(5, 5, 5);
+    scene.add(directionalLight);
     
-    // Animation loop
     const animate = () => {
       requestAnimationFrame(animate);
-      objects.forEach(obj => {
-        obj.rotation.y += 0.005;
-      });
       newRenderer.render(scene, camera);
     };
     animate();
 
-    // Interactivity
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
     let hovered: THREE.Object3D | null = null;
@@ -117,15 +118,20 @@ export function KnowledgeGraph() {
 
         if (intersects.length > 0) {
             if (hovered !== intersects[0].object) {
-                if(hovered) (hovered as THREE.Mesh).material.color.set(activeConcepts.has(hovered.userData.name) ? '#BE0AFF' : '#00305E');
+                if(hovered) {
+                  (hovered as THREE.Mesh).material.color.copy(hovered.userData.baseColor);
+                   hovered.scale.set(1, 1, 1);
+                }
                 hovered = intersects[0].object;
-                (hovered as THREE.Mesh).material.color.set('#FFA500'); // Orange hover
+                (hovered as THREE.Mesh).material.color.copy(hoverColor);
+                hovered.scale.set(1.2, 1.2, 1.2);
                 synth.triggerAttackRelease('C5', '8n');
                 currentMount.style.cursor = 'pointer';
             }
         } else {
             if (hovered) {
-                (hovered as THREE.Mesh).material.color.set(activeConcepts.has(hovered.userData.name) ? '#BE0AFF' : '#00305E');
+                (hovered as THREE.Mesh).material.color.copy(hovered.userData.baseColor);
+                 hovered.scale.set(1, 1, 1);
                 currentMount.style.cursor = 'default';
             }
             hovered = null;
@@ -142,7 +148,6 @@ export function KnowledgeGraph() {
     currentMount.addEventListener('mousemove', onMouseMove);
     currentMount.addEventListener('click', onClick);
 
-    // Handle resize
     const onResize = () => {
       if (mountRef.current) {
         camera.aspect = mountRef.current.clientWidth / mountRef.current.clientHeight;
@@ -163,13 +168,13 @@ export function KnowledgeGraph() {
         renderer.dispose();
       }
     };
-  }, [graphNodes, activeConcepts]); // Re-render graph when nodes or active concepts change
+  }, [graphNodes, activeConcepts]); 
 
   return (
-    <Card className="h-96 min-h-96 flex flex-col">
+    <Card className="h-96 min-h-96 flex flex-col bg-muted/20">
       <CardHeader>
-        <CardTitle className="font-headline text-2xl flex items-center gap-2">
-            <BrainCircuit />
+        <CardTitle className="font-headline text-xl flex items-center gap-2">
+            <BrainCircuit className="text-primary"/>
             Knowledge Graph
         </CardTitle>
       </CardHeader>
@@ -177,7 +182,7 @@ export function KnowledgeGraph() {
         <div ref={mountRef} className="w-full h-full" />
         {graphNodes.length === 0 && (
           <div className="absolute inset-0 flex items-center justify-center text-muted-foreground bg-background/50">
-            <p>Select publications to build graph.</p>
+            <p>No publications found for the current filters.</p>
           </div>
         )}
       </CardContent>

@@ -1,7 +1,7 @@
 'use client';
 
 import type { Publication } from '@/types';
-import { DashboardProvider, useDashboard } from '@/hooks/use-dashboard';
+import { DashboardProvider, useDashboard } from '@/hooks/use-dashboard.tsx';
 import { Header } from './header';
 import { FilterPanel } from './filter-panel';
 import { PublicationList } from './publication-list';
