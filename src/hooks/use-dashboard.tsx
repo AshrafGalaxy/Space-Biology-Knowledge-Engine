@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useState, useMemo, useEffect, useCallback } from 'react';
-import type { Publication, UserRole, GapAnalysisResult } from '@/types';
+import type { Publication, UserRole, GapAnalysisResult, SortingState } from '@/types';
 import { useToast } from './use-toast';
 
 interface DashboardContextType {
@@ -30,6 +30,8 @@ interface DashboardContextType {
   setYearRange: (range: [number, number]) => void;
   minYear: number;
   maxYear: number;
+  sorting: SortingState;
+  setSorting: (sorting: SortingState) => void;
 }
 
 const DashboardContext = createContext<DashboardContextType | undefined>(undefined);
@@ -56,6 +58,8 @@ export function DashboardProvider({
   const [analysisResult, setAnalysisResult] = useState<GapAnalysisResult>(null);
   const [comparisonSet, setComparisonSet] = useState<Set<string>>(new Set());
   const [yearRange, setYearRange] = useState<[number, number]>([minYear, maxYear]);
+  const [sorting, setSorting] = useState<SortingState>({ id: 'publicationYear', desc: true });
+
 
   const toggleConcept = (concept: string) => {
     setActiveConcepts(prev => {
@@ -95,6 +99,7 @@ export function DashboardProvider({
     setActiveConcepts(new Set());
     setSearchTerm('');
     setYearRange([minYear, maxYear]);
+    setSorting({ id: 'publicationYear', desc: true });
   };
 
   const isFiltered = useMemo(() => {
@@ -102,7 +107,7 @@ export function DashboardProvider({
   }, [searchTerm, activeConcepts, yearRange, minYear, maxYear]);
 
   const filteredPublications = useMemo(() => {
-    return publications.filter(p => {
+    let filtered = publications.filter(p => {
       const searchMatch = searchTerm.length > 0 
         ? p.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
           p.summary.toLowerCase().includes(searchTerm.toLowerCase())
@@ -116,7 +121,25 @@ export function DashboardProvider({
         
       return searchMatch && conceptMatch && yearMatch;
     });
-  }, [publications, searchTerm, activeConcepts, yearRange]);
+
+    if (sorting.id) {
+        filtered.sort((a, b) => {
+            const valA = a[sorting.id as keyof Publication];
+            const valB = b[sorting.id as keyof Publication];
+            
+            let comparison = 0;
+            if (valA > valB) {
+                comparison = 1;
+            } else if (valA < valB) {
+                comparison = -1;
+            }
+            
+            return sorting.desc ? -comparison : comparison;
+        });
+    }
+
+    return filtered;
+  }, [publications, searchTerm, activeConcepts, yearRange, sorting]);
   
   const selectedPublication = useMemo(() => {
     return publications.find(p => p.id === selectedPublicationId) ?? null;
@@ -157,6 +180,8 @@ export function DashboardProvider({
     setYearRange,
     minYear,
     maxYear,
+    sorting,
+    setSorting,
   };
 
   return (

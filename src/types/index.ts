@@ -27,3 +27,8 @@ export type ResearchProposalAnalysis = {
   noveltyStatement: string;
   suggestedNextSteps: string[];
 } | null;
+
+export type SortingState = {
+  id: string;
+  desc: boolean;
+};
