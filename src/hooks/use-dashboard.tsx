@@ -20,6 +20,7 @@ interface DashboardContextType {
   analysisResult: GapAnalysisResult;
   setAnalysisResult: (result: GapAnalysisResult) => void;
   clearFilters: () => void;
+  isFiltered: boolean;
 }
 
 const DashboardContext = createContext<DashboardContextType | undefined>(undefined);
@@ -57,9 +58,17 @@ export function DashboardProvider({
     setSearchTerm('');
   };
 
+  const isFiltered = useMemo(() => {
+      return searchTerm.length > 0 || activeConcepts.size > 0;
+  }, [searchTerm, activeConcepts]);
+
   const filteredPublications = useMemo(() => {
+    if (!isFiltered) {
+        return publications;
+    }
+
     return publications.filter(p => {
-      const searchMatch = searchTerm.length > 2 
+      const searchMatch = searchTerm.length > 0 
         ? p.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
           p.summary.toLowerCase().includes(searchTerm.toLowerCase())
         : true;
@@ -70,7 +79,7 @@ export function DashboardProvider({
         
       return searchMatch && conceptMatch;
     });
-  }, [publications, searchTerm, activeConcepts]);
+  }, [publications, searchTerm, activeConcepts, isFiltered]);
   
   const selectedPublication = useMemo(() => {
     return publications.find(p => p.id === selectedPublicationId) ?? null;
@@ -79,7 +88,7 @@ export function DashboardProvider({
   // Reset analysis when filters change
   useEffect(() => {
     setAnalysisResult(null);
-  }, [filteredPublications]);
+  }, [filteredPublications, isFiltered]);
 
   const value = {
     publications,
@@ -98,6 +107,7 @@ export function DashboardProvider({
     analysisResult,
     setAnalysisResult,
     clearFilters,
+    isFiltered,
   };
 
   return (
