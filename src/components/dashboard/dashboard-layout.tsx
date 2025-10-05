@@ -28,7 +28,7 @@ function DashboardView() {
 
         {/* Mobile Filter Panel in a Sheet */}
          <Sheet open={isFilterPanelOpen} onOpenChange={setIsFilterPanelOpen}>
-          <SheetContent side="left" className="lg:hidden p-0 w-80">
+          <SheetContent side="left" className="lg:hidden p-0 w-80 flex flex-col">
              <SheetHeader className="p-4 border-b">
                <SheetTitle className="text-lg font-semibold">Filter and Explore</SheetTitle>
             </SheetHeader>
