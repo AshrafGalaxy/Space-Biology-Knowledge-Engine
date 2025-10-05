@@ -127,14 +127,17 @@ export function KnowledgeGraph() {
   useEffect(() => {
     // Initialize synths on client
     if(!synths) {
-      setSynths({
-          hover: new Tone.Synth({ oscillator: { type: 'sine' }, envelope: { attack: 0.005, decay: 0.1, sustain: 0.3, release: 1 } }).toDestination(),
-          click: new Tone.MembraneSynth().toDestination(),
-      });
+      try {
+        const hoverSynth = new Tone.Synth({ oscillator: { type: 'sine' }, envelope: { attack: 0.005, decay: 0.1, sustain: 0.3, release: 1 } }).toDestination();
+        const clickSynth = new Tone.MembraneSynth().toDestination();
+        setSynths({ hover: hoverSynth, click: clickSynth });
+      } catch (e) {
+        console.error("Failed to initialize Tone.js synths", e)
+      }
     }
   
     const canvas = mountRef.current;
-    if (!canvas || graphNodes.length === 0 || !synths) return;
+    if (!canvas || graphNodes.length === 0) return;
     
     const ctx = canvas.getContext('2d')!;
     let animationFrameId: number;
@@ -165,15 +168,23 @@ export function KnowledgeGraph() {
                 const nodeA = graphNodes[i];
                 const nodeB = graphNodes[j];
                 const delta = nodeB.pos.subtract(nodeA.pos);
-                const distance = delta.magnitude;
-                const minDistance = nodeA.radius + nodeB.radius + 10;
-                
-                if (distance < minDistance) {
-                    const forceMagnitude = -300 / (distance * distance); // Coulomb's law
-                    const force = delta.normalized.multiply(forceMagnitude);
-                    nodeA.force = nodeA.force.add(force);
-                    nodeB.force = nodeB.force.subtract(force);
+                let distance = delta.magnitude;
+                if (distance === 0) {
+                  distance = 0.1;
                 }
+                const minDistance = nodeA.radius + nodeB.radius + 20;
+                
+                const forceMagnitude = -5000 / (distance * distance); // Coulomb's law
+                const force = delta.normalized.multiply(forceMagnitude);
+
+                if (distance < minDistance) {
+                    const overlapForce = delta.normalized.multiply((minDistance - distance) * -0.1);
+                    nodeA.force = nodeA.force.add(overlapForce.multiply(-1));
+                    nodeB.force = nodeB.force.add(overlapForce);
+                }
+
+                nodeA.force = nodeA.force.add(force);
+                nodeB.force = nodeB.force.subtract(force);
             }
         }
         
@@ -182,9 +193,9 @@ export function KnowledgeGraph() {
             const { source, target, strength } = link;
             const delta = target.pos.subtract(source.pos);
             const distance = delta.magnitude;
-            const idealDistance = (source.radius + target.radius) * 2;
+            const idealDistance = 100 + (source.radius + target.radius);
             const displacement = distance - idealDistance;
-            const forceMagnitude = displacement * 0.05 * strength; // Hooke's Law
+            const forceMagnitude = displacement * 0.02 * Math.log(strength + 1); // Hooke's Law
             const force = delta.normalized.multiply(forceMagnitude);
             
             source.force = source.force.add(force);
@@ -195,20 +206,22 @@ export function KnowledgeGraph() {
         graphNodes.forEach(node => {
             const center = new Vec2(rect.width / 2, rect.height / 2);
             const toCenter = center.subtract(node.pos);
-            node.force = node.force.add(toCenter.multiply(0.01));
+            node.force = node.force.add(toCenter.multiply(node.mass * 0.0001));
         });
     };
 
     const draw = () => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
 
         // Draw links
-        ctx.strokeStyle = colors.link;
-        ctx.lineWidth = 0.5;
         links.forEach(link => {
+            const { source, target } = link;
+            const isHovered = hoveredNode && (hoveredNode === source || hoveredNode === target);
+            ctx.strokeStyle = isHovered ? colors.hover : colors.link;
+            ctx.lineWidth = isHovered ? 2 : 0.75;
             ctx.beginPath();
-            ctx.moveTo(link.source.pos.x, link.source.pos.y);
-            ctx.lineTo(link.target.pos.x, link.target.pos.y);
+            ctx.moveTo(source.pos.x, source.pos.y);
+            ctx.lineTo(target.pos.x, target.pos.y);
             ctx.stroke();
         });
 
@@ -218,16 +231,19 @@ export function KnowledgeGraph() {
 
     let lastTime = 0;
     const animate = (time: number) => {
-        const dt = (time - lastTime) / 1000;
+        const dt = (time - lastTime) / 1000 || 0.016;
         lastTime = time;
 
-        if (dt > 0) {
-            applyForces();
-            graphNodes.forEach(node => node.update(dt, 0.95)); // damping
+        if (dt > 0.05) { // clamp delta time
+            lastTime = 0;
+            animationFrameId = requestAnimationFrame(animate);
+            return;
         }
 
+        applyForces();
+        graphNodes.forEach(node => node.update(dt, 0.95)); // damping
+
         ctx.save();
-        ctx.translate(0.5, 0.5); // Anti-aliasing hack
         draw();
         ctx.restore();
 
@@ -238,12 +254,12 @@ export function KnowledgeGraph() {
 
     const getMousePos = (e: MouseEvent): Vec2 => {
         const rect = canvas.getBoundingClientRect();
-        return new Vec2(e.clientX - rect.left, e.clientY - rect.top);
+        return new Vec2((e.clientX - rect.left), (e.clientY - rect.top));
     };
 
     const handleMouseDown = (e: MouseEvent) => {
         const mousePos = getMousePos(e);
-        const node = graphNodes.find(n => mousePos.subtract(n.pos).magnitude < n.radius);
+        const node = [...graphNodes].reverse().find(n => mousePos.subtract(n.pos).magnitude < n.radius);
         if (node) {
             draggedNode = node;
             node.isDragged = true;
@@ -256,28 +272,34 @@ export function KnowledgeGraph() {
         if (draggedNode) {
             draggedNode.pos = mousePos;
         } else {
-            const node = graphNodes.find(n => mousePos.subtract(n.pos).magnitude < n.radius);
+            const node = [...graphNodes].reverse().find(n => mousePos.subtract(n.pos).magnitude < n.radius);
             if (node !== hoveredNode) {
                 if(hoveredNode) hoveredNode.isHovered = false;
                 hoveredNode = node || null;
                 if(hoveredNode) {
                     hoveredNode.isHovered = true;
-                    synths.hover.triggerAttackRelease('C5', '8n');
+                    synths?.hover.triggerAttackRelease('C5', '8n');
                 }
             }
             canvas.style.cursor = node ? 'pointer' : 'default';
         }
     };
     
-    const handleMouseUp = () => {
+    let lastClickTime = 0;
+    const handleMouseUp = (e: MouseEvent) => {
+        const clickTime = Date.now();
         if (draggedNode && hoveredNode === draggedNode) {
-            synths.click.triggerAttackRelease('C3', '8n');
-            toggleConcept(draggedNode.name);
+            // Only fire click if not a drag (or very short drag)
+            if (clickTime - lastClickTime < 500) {
+                 synths?.click.triggerAttackRelease('C3', '8n');
+                 toggleConcept(draggedNode.name);
+            }
         }
         if (draggedNode) {
             draggedNode.isDragged = false;
         }
         draggedNode = null;
+        lastClickTime = clickTime;
     };
     
     const handleMouseLeave = () => {
@@ -285,9 +307,11 @@ export function KnowledgeGraph() {
             hoveredNode.isHovered = false;
             hoveredNode = null;
         }
+        draggedNode = null;
     };
 
     const handleResize = () => {
+      if (!canvas) return;
       rect = canvas.getBoundingClientRect();
       canvas.width = rect.width * dpr;
       canvas.height = rect.height * dpr;
@@ -308,7 +332,7 @@ export function KnowledgeGraph() {
         canvas.removeEventListener('mouseleave', handleMouseLeave);
         window.removeEventListener('resize', handleResize);
     };
-}, [graphNodes, links, activeConcepts, synths]);
+}, [graphNodes, links, activeConcepts, synths, toggleConcept]);
 
   return (
     <Card className="h-96 min-h-96 flex flex-col bg-muted/20">
