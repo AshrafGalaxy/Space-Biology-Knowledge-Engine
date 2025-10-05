@@ -3,9 +3,11 @@
 SpaceBio Explorer is an AI-powered dashboard designed to help researchers, managers, and mission architects at NASA explore, analyze, and discover insights from a vast library of bioscience publications. The application leverages Generative AI to perform complex analysis, identify knowledge gaps, and propose new research directions based on the existing corpus of scientific literature.
 
 [SpaceBio Explorer Dashboard Screenshots]:
-<img width="2880" height="1704" alt="Image" src="https://github.com/user-attachments/assets/42adcea8-e9bb-482d-8d24-969a1af4bc02" />
-<img width="2880" height="1704" alt="Image" src="https://github.com/user-attachments/assets/7c854490-61e6-46a2-903d-65c9452726c0" />
-<img width="2880" height="1704" alt="Image" src="https://github.com/user-attachments/assets/921300cb-7a79-4644-8f2d-805534854008" />
+<img width="2879" height="1473" alt="Image" src="https://github.com/user-attachments/assets/ae3ba651-1a4e-4dd9-bbe1-d00128372902" />
+<img width="2879" height="1467" alt="Image" src="https://github.com/user-attachments/assets/c2f8e9b0-b81c-4f70-9d67-371264a0d9ca" />
+<img width="2879" height="1464" alt="Image" src="https://github.com/user-attachments/assets/974db796-68c0-4e9d-959d-65419d924ef8" />
+<img width="2879" height="1468" alt="Image" src="https://github.com/user-attachments/assets/0e75eb56-6906-428d-85e2-ff8babc68645" />
+<img width="2879" height="1462" alt="Image" src="https://github.com/user-attachments/assets/9989b719-99a7-4a71-857e-6548ef42dfba" />
 
 ## Key Features
 
