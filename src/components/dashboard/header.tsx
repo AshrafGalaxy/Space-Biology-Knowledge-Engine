@@ -42,10 +42,10 @@ export function Header() {
         </Link>
         <Select value={userRole} onValueChange={(value) => setUserRole(value as UserRole)}>
           <SelectTrigger className="w-[200px] h-9">
-            <div className="flex items-center">
-              {roleIcons[userRole]}
-              <SelectValue placeholder="Select a role" />
-            </div>
+             <div className="flex items-center">
+                {roleIcons[userRole]}
+                <SelectValue placeholder="Select a role" />
+              </div>
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="Scientist">

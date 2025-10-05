@@ -5,11 +5,11 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { runGapAnalysis } from '@/app/actions';
 import { useTransition } from 'react';
-import { Lightbulb, AlertTriangle, Loader2, WandSparkles, X } from 'lucide-react';
+import { Lightbulb, AlertTriangle, Loader2, WandSparkles } from 'lucide-react';
 import { ScrollArea } from '../ui/scroll-area';
 import { Separator } from '../ui/separator';
 
-export function GapAnalysisPanel({ onClose }: { onClose: () => void }) {
+export function GapAnalysisPanel() {
   const { filteredPublications, analysisResult, setAnalysisResult, userRole } = useDashboard();
   const [isPending, startTransition] = useTransition();
 
@@ -24,14 +24,11 @@ export function GapAnalysisPanel({ onClose }: { onClose: () => void }) {
 
   return (
     <>
-      <div className="p-4 border-b flex items-center justify-between">
+      <div className="p-4 border-b">
         <h2 className="font-headline text-lg font-semibold flex items-center gap-2">
             <WandSparkles className="w-5 h-5 text-primary" />
             AI Gap Analysis
         </h2>
-        <Button variant="ghost" size="icon" onClick={onClose}>
-          <X className="h-4 w-4" />
-        </Button>
       </div>
       <div className="flex-1 p-4 flex flex-col gap-4 min-h-0">
         <p className="text-sm text-muted-foreground">
